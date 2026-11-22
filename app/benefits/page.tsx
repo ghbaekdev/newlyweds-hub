@@ -1,4 +1,5 @@
 import Link from "next/link";
+import regions from "@/data/regions.json";
 import { getBenefits } from "@/lib/benefits";
 import BenefitsBrowser from "./BenefitsBrowser";
 
@@ -18,7 +19,7 @@ export default async function Page() {
           </Link>
         </p>
       </header>
-      <BenefitsBrowser benefits={benefits} />
+      <BenefitsBrowser benefits={benefits} regions={regions} />
     </div>
   );
 }

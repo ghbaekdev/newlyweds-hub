@@ -44,7 +44,14 @@ const won = (n: number) =>
     ? `${(n / 100_000_000).toLocaleString(undefined, { maximumFractionDigits: 1 })}억원`
     : `${Math.round(n / 10_000).toLocaleString()}만원`;
 
-export default function BenefitsBrowser({ benefits }: { benefits: Benefit[] }) {
+export default function BenefitsBrowser({
+  benefits,
+  regions,
+}: {
+  benefits: Benefit[];
+  /** 시도 → 시군구 전체 목록 (보조금24 소관기관 기준). 혜택이 없는 시군구도 고를 수 있게 한다 */
+  regions: Record<string, string[]>;
+}) {
   const [sido, setSido] = useState("");
   const [sigungu, setSigungu] = useState("");
   const [status, setStatus] = useState<Status>("any");
@@ -55,15 +62,16 @@ export default function BenefitsBrowser({ benefits }: { benefits: Benefit[] }) {
   const [hideStale, setHideStale] = useState(true);
   const [categories, setCategories] = useState<Set<string>>(new Set());
 
-  const sidos = useMemo(
-    () => [...new Set(benefits.map((b) => b.sido).filter((s): s is string => !!s))].sort(),
-    [benefits],
-  );
-  const sigungus = useMemo(
-    () =>
-      [...new Set(benefits.filter((b) => b.sido === sido && b.sigungu).map((b) => b.sigungu as string))].sort(),
-    [benefits, sido],
-  );
+  const sidos = useMemo(() => Object.keys(regions).sort(), [regions]);
+  // 시군구 자체 사업 수 (relevance가 incidental이 아닌 것)
+  const localCount = useMemo(() => {
+    const m: Record<string, number> = {};
+    for (const b of benefits)
+      if (b.sido && b.sigungu && b.relevance !== "incidental") m[`${b.sido}|${b.sigungu}`] = (m[`${b.sido}|${b.sigungu}`] ?? 0) + 1;
+    return m;
+  }, [benefits]);
+  const sigungus = regions[sido] ?? [];
+  const selectedLocal = sigungu ? (localCount[`${sido}|${sigungu}`] ?? 0) : null;
 
   const base = useMemo(() => {
     const y = years === "" ? null : Number(years);
@@ -124,9 +132,15 @@ export default function BenefitsBrowser({ benefits }: { benefits: Benefit[] }) {
               className={`${input} min-w-0 flex-1`}
             >
               <option value="">시군구 전체</option>
-              {sigungus.map((s) => (
-                <option key={s}>{s}</option>
-              ))}
+              {sigungus.map((s) => {
+                const n = localCount[`${sido}|${s}`] ?? 0;
+                return (
+                  <option key={s} value={s}>
+                    {s}
+                    {n ? ` (${n})` : " (지역 사업 없음)"}
+                  </option>
+                );
+              })}
             </select>
           </div>
         </label>
@@ -191,6 +205,12 @@ export default function BenefitsBrowser({ benefits }: { benefits: Benefit[] }) {
         })}
       </div>
 
+      {selectedLocal === 0 && (
+        <p className="mb-3 rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200">
+          {sigungu}가 보조금24에 등록한 신혼부부 대상 자체 사업이 없습니다. 전국·{sido} 단위 혜택만 보여 드려요. 시·구청
+          홈페이지에 따로 공고된 사업이 있을 수 있습니다.
+        </p>
+      )}
       <p className="mb-3 text-xs text-zinc-500">{shown.length}건 · 최대 지원금액 순 · 나이·혼인기간은 원문 기준 단순 비교라 실제 자격은 상세에서 확인하세요</p>
 
       <ul className="grid gap-3 sm:grid-cols-2">

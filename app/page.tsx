@@ -18,7 +18,7 @@ export default function Home() {
         </li>
         <li>
           <Link href="/housing" className="text-blue-600 underline">
-            청약홈 · 마이홈 API — 신혼부부 주택 공고
+            마이홈 공공임대·공공분양 — 신혼부부 주택 공고
           </Link>
         </li>
       </ul>

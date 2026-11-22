@@ -1,0 +1,524 @@
+[
+  {
+    "myhomeId": "임대-21590",
+    "title": "경기북부 신혼·신생아 매입임대Ⅰ 예비입주자 모집",
+    "kind": "임대",
+    "eligibilityAsOf": "2026-11-19",
+    "source": {
+      "supplierNoticeUrl": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021072&ccrCnntSysDsCd=03&uppAisTpCd=13&aisTpCd=26&mi=1026",
+      "pdfUrl": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69481261"
+    },
+    "applicationPeriods": [
+      {
+        "group": "신청자",
+        "opensOn": "2026-12-01",
+        "closesOn": "2026-12-03",
+        "sourcePage": 6,
+        "opensAt": "10:00",
+        "closesAt": "16:00"
+      }
+    ],
+    "selection": {
+      "rankSourcePage": 4,
+      "ranks": [
+        {
+          "rank": 1,
+          "criteria": "· 신생아 가구 · 지원대상 한부모가족(「한부모가족 지원법 시행규칙」 제3조에 따라 성평등가족부장관이 정하여 고시하는 모자가족 또는 부자가족)"
+        },
+        {
+          "rank": 2,
+          "criteria": "1순위가 아닌, · 미성년 자녀가 있는 신혼부부 및 예비신혼부부 · 6세 이하 자녀가 있는 한부모 가족"
+        },
+        {
+          "rank": 3,
+          "criteria": "· 미성년 자녀가 없는 신혼부부 및 예비신혼부부"
+        },
+        {
+          "rank": 4,
+          "criteria": "1,2순위가 아닌, · 6세 이하 자녀가 있는 혼인가구"
+        }
+      ],
+      "income": {
+        "sourcePage": 4,
+        "rows": [
+          {
+            "group": "입주자격",
+            "basePercent": 70,
+            "bothSpousesHaveIncome": false,
+            "maximumMonthlyIncomeKrwByHouseholdSize": {
+              "1": 3432027,
+              "2": 4693016,
+              "3": 5717900,
+              "4": 6161541,
+              "5": 6528890,
+              "6": 6934384
+            }
+          },
+          {
+            "group": "입주자격",
+            "basePercent": 90,
+            "bothSpousesHaveIncome": true,
+            "maximumMonthlyIncomeKrwByHouseholdSize": {
+              "1": 4194699,
+              "2": 5866270,
+              "3": 7351586,
+              "4": 7921982,
+              "5": 8394287,
+              "6": 8915637
+            }
+          }
+        ],
+        "householdSizeAdjustmentPp": {
+          "1": 20,
+          "2": 10
+        }
+      },
+      "scoreItems": [
+        {
+          "key": "benefitsStatus",
+          "label": "① 신청자의 수급자 등 여부 * 시설에서 급여를 실시하는 보장시설 수급자 포함",
+          "options": [
+            {
+              "condition": "생계급여, 의료급여, 주거급여, 교육급여 수급자 중 하나에 해당하는 자",
+              "points": 3
+            },
+            {
+              "condition": "차상위계층",
+              "points": 2
+            }
+          ],
+          "notes": null,
+          "sourcePage": 5
+        },
+        {
+          "key": "children",
+          "label": "② 자녀의 수 (태아를 포함한 민법상 미성년인 자녀에 한하며, 재혼한 경우에는 이전 배우자와의 혼인관계에서 출산한 미성년인 자녀도 포함)",
+          "options": [
+            {
+              "condition": "3인 이상",
+              "points": 4
+            },
+            {
+              "condition": "2인",
+              "points": 3
+            },
+            {
+              "condition": "1인",
+              "points": 2
+            }
+          ],
+          "notes": null,
+          "sourcePage": 5
+        },
+        {
+          "key": "subscriptionPayments",
+          "label": "③ 청약저축 및 주택청약종합저축 납입횟수 * 신청자 명의 통장의 인정회차 기준",
+          "options": [
+            {
+              "condition": "24회 이상 납입",
+              "points": 3
+            },
+            {
+              "condition": "12회 이상 24회 미만 납입",
+              "points": 2
+            },
+            {
+              "condition": "6회 이상 12회 미만 납입",
+              "points": 1
+            }
+          ],
+          "notes": null,
+          "sourcePage": 5
+        },
+        {
+          "key": "localResidency",
+          "label": "④ 공고일 현재까지 해당 사업대상지역인 시 (특별시ᆞ·광역시 포함)ᆞ군에 연속 거주한 기간 * 예)의정부시 소재 주택 신청 시, 신청자의 의정부시 연속 거주기간만 인정 * 거주불명·주민등록말소·전출 등이 있었을 경우, 재 전입·재등록부터 현재까지 거주기간만을 산정",
+          "options": [
+            {
+              "condition": "5년 이상",
+              "points": 3
+            },
+            {
+              "condition": "3년 이상 5년 미만",
+              "points": 2
+            },
+            {
+              "condition": "3년 미만",
+              "points": 1
+            }
+          ],
+          "notes": null,
+          "sourcePage": 5
+        },
+        {
+          "key": "disability",
+          "label": "⑤ 신청자의 장애인 등록 여부 * 배우자가 지적장애인·정신장애인 및 장애의 정도가 심한(기존 제3급 이상의) 뇌병변 장애인에 해당하는 경우 배우자 장애인 등록도 인정",
+          "options": [
+            {
+              "condition": "「장애인복지법」제32조 제1항에 따라 장애인등록증이 교부된 자",
+              "points": 2
+            }
+          ],
+          "notes": null,
+          "sourcePage": 5
+        },
+        {
+          "key": "seniorDependent",
+          "label": "⑥ 신청자의 65세 이상 직계존속 부양여부 (배우자 직계 존속 부양도 포함) * 예비신혼부부의 경우 혼인으로 구성될 세대구성원에 65세 이상 직계존속 등록여부 (세대구성 확인서로 확인)",
+          "options": [
+            {
+              "condition": "65세 이상(1961.11.19. 이전 출생) 직계존속이 세대별 주민등록표상 세대원으로 등록된 경우",
+              "points": 1
+            }
+          ],
+          "notes": null,
+          "sourcePage": 5
+        }
+      ],
+      "ordering": [
+        "순위",
+        "배점 합계",
+        "평가항목 순서별 점수",
+        "추첨"
+      ]
+    },
+    "slug": "rent-21590",
+    "location": "경기 북부",
+    "reviewNote": "LH 상세 페이지에 정정 안내가 있습니다. 신청 전 최신 공고문을 확인하세요.",
+    "eligibility": {
+      "sourcePage": 3,
+      "summary": "공고일 현재 무주택세대구성원으로 소득·자산 요건을 충족하는 신혼부부, 예비신혼부부, 한부모가족, 유자녀 혼인가구 또는 신생아 가구가 신청할 수 있습니다. 세부 조건은 가구 유형별로 다릅니다."
+    }
+  },
+  {
+    "myhomeId": "분양-1505",
+    "title": "안산신길2 A-6블록 신혼희망타운 공공분양",
+    "kind": "분양",
+    "eligibilityAsOf": "2026-10-30",
+    "source": {
+      "supplierNoticeUrl": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=0000061189&ccrCnntSysDsCd=02&uppAisTpCd=05&aisTpCd=05&mi=1027",
+      "pdfUrl": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69223600"
+    },
+    "applicationPeriods": [
+      {
+        "group": "사전청약 당첨자",
+        "opensOn": "2026-11-16",
+        "closesOn": "2026-11-17",
+        "sourcePage": 21,
+        "opensAt": "10:00",
+        "closesAt": "17:00"
+      },
+      {
+        "group": "본청약 신규 신청자",
+        "opensOn": "2026-11-23",
+        "closesOn": "2026-11-24",
+        "sourcePage": 21,
+        "opensAt": "10:00",
+        "closesAt": "17:00"
+      }
+    ],
+    "supply": {
+      "publicSaleUnitsIncludingAdvanceApplicants": 251,
+      "exclusiveAreaSquareMeters": 55,
+      "sourcePage": 1
+    },
+    "selection": {
+      "income": {
+        "sourcePage": 14,
+        "rows": [
+          {
+            "group": "우선·일반공급",
+            "basePercent": 130,
+            "bothSpousesHaveIncome": false,
+            "maximumMonthlyIncomeKrwByHouseholdSize": {
+              "<=3": 9793892,
+              "4": 11442863,
+              "5": 12125081,
+              "6": 12878142,
+              "7": 13631203,
+              "8": 14384265
+            }
+          },
+          {
+            "group": "우선·일반공급",
+            "basePercent": 140,
+            "bothSpousesHaveIncome": true,
+            "maximumMonthlyIncomeKrwByHouseholdSize": {
+              "<=3": 10547268,
+              "4": 12323083,
+              "5": 13057779,
+              "6": 13868768,
+              "7": 14679757,
+              "8": 15490747
+            }
+          },
+          {
+            "group": "우선공급 배점",
+            "basePercent": 70,
+            "bothSpousesHaveIncome": false,
+            "maximumMonthlyIncomeKrwByHouseholdSize": {
+              "<=3": 5273634,
+              "4": 6161541,
+              "5": 6528890,
+              "6": 6934384,
+              "7": 7339879,
+              "8": 7745373
+            }
+          },
+          {
+            "group": "우선공급 배점",
+            "basePercent": 80,
+            "bothSpousesHaveIncome": true,
+            "maximumMonthlyIncomeKrwByHouseholdSize": {
+              "<=3": 6027010,
+              "4": 7041762,
+              "5": 7461588,
+              "6": 7925010,
+              "7": 8388433,
+              "8": 8851855
+            }
+          },
+          {
+            "group": "우선공급 배점",
+            "basePercent": 100,
+            "bothSpousesHaveIncome": false,
+            "maximumMonthlyIncomeKrwByHouseholdSize": {
+              "<=3": 7533763,
+              "4": 8802202,
+              "5": 9326985,
+              "6": 9906263,
+              "7": 10485541,
+              "8": 11064819
+            }
+          },
+          {
+            "group": "우선공급 배점",
+            "basePercent": 110,
+            "bothSpousesHaveIncome": true,
+            "maximumMonthlyIncomeKrwByHouseholdSize": {
+              "<=3": 8287139,
+              "4": 9682422,
+              "5": 10259684,
+              "6": 10896889,
+              "7": 11534095,
+              "8": 12171301
+            }
+          },
+          {
+            "group": "추첨공급",
+            "basePercent": 130,
+            "bothSpousesHaveIncome": false,
+            "maximumMonthlyIncomeKrwByHouseholdSize": {
+              "<=3": 9793892,
+              "4": 11442863,
+              "5": 12125081,
+              "6": 12878142,
+              "7": 13631203,
+              "8": 14384265
+            }
+          },
+          {
+            "group": "추첨공급",
+            "basePercent": 200,
+            "bothSpousesHaveIncome": true,
+            "maximumMonthlyIncomeKrwByHouseholdSize": {
+              "<=3": 15067526,
+              "4": 17604404,
+              "5": 18653970,
+              "6": 19812526,
+              "7": 20971082,
+              "8": 22129638
+            }
+          }
+        ]
+      },
+      "stages": [
+        {
+          "name": "우선공급",
+          "allocationPercent": 30,
+          "method": "배점 후 동점 추첨",
+          "sourcePage": 18,
+          "scoreItems": [
+            {
+              "key": "income",
+              "label": "(1) 가구소득",
+              "options": [
+                {
+                  "condition": "70% 이하",
+                  "points": 3
+                },
+                {
+                  "condition": "70% 초과 100% 이하",
+                  "points": 2
+                },
+                {
+                  "condition": "100% 초과",
+                  "points": 1
+                }
+              ],
+              "notes": "• 본인 및 배우자가 모두 소득이 있는 경우 80% 이하 • 본인 및 배우자가 모두 소득이 있는 경우 80%초과 110% 이하 • 본인 및 배우자가 모두 소득이 있는 경우 110% 초과",
+              "sourcePage": 18
+            },
+            {
+              "key": "provinceResidency",
+              "label": "(2) 해당 시·도 연속 거주기간(경기도)",
+              "options": [
+                {
+                  "condition": "2년 이상",
+                  "points": 3
+                },
+                {
+                  "condition": "1년 이상 2년 미만",
+                  "points": 2
+                },
+                {
+                  "condition": "1년 미만",
+                  "points": 1
+                },
+                {
+                  "condition": "미거주",
+                  "points": 0
+                }
+              ],
+              "notes": "• 시는 특별시ㆍ광역시ㆍ특별자치시 기준이고, 도는 도ㆍ특별자치도 기준 • 공고일 현재 경기도에 주민등록표등본상 계속해서 거주한 기간을 말하며, 해당 지역에 거주하지 않을 경우 미거주(0점) 선택 • 10년/25년 이상 장기복무군인으로 청약하는 자도 해당 지역에 실제로 거 주하지 않을 경우 미거주(0점) 선택",
+              "sourcePage": 18
+            },
+            {
+              "key": "subscriptionPayments",
+              "label": "(3) 주택청약종합저축 납입인정 횟수",
+              "options": [
+                {
+                  "condition": "24회 이상",
+                  "points": 3
+                },
+                {
+                  "condition": "12회 이상 23회 이하",
+                  "points": 2
+                },
+                {
+                  "condition": "6회 이상 11회 이하",
+                  "points": 1
+                }
+              ],
+              "notes": "• 청약통장 순위(가입) 확인서의 납입인정 횟수를 말함 ※ 단, 청약예금 및 청약부금에서 주택청약종합저축으로 전환한 경우에는 전환일부터 산정",
+              "sourcePage": 18
+            }
+          ]
+        },
+        {
+          "name": "일반공급",
+          "allocationPercent": 60,
+          "method": "배점 후 동점 추첨",
+          "sourcePage": 18,
+          "scoreItems": [
+            {
+              "key": "children",
+              "label": "(1) 미성년자녀수",
+              "options": [
+                {
+                  "condition": "3명 이상",
+                  "points": 3
+                },
+                {
+                  "condition": "2명",
+                  "points": 2
+                },
+                {
+                  "condition": "1명",
+                  "points": 1
+                },
+                {
+                  "condition": "0명",
+                  "points": 0
+                }
+              ],
+              "notes": "• 태아(입양) 포함",
+              "sourcePage": 19
+            },
+            {
+              "key": "homelessPeriod",
+              "label": "(2) 무주택기간",
+              "options": [
+                {
+                  "condition": "3년 이상",
+                  "points": 3
+                },
+                {
+                  "condition": "1년 이상 3년 미만",
+                  "points": 2
+                },
+                {
+                  "condition": "1년 미만",
+                  "points": 1
+                },
+                {
+                  "condition": "해당없음",
+                  "points": 0
+                }
+              ],
+              "notes": "• <표1>의 신청자격별 검증 대상에 해당하는 모든 분이 계속하여 무주택인 기간으로 산정하되, 신청자가 30세가 되는 날(신청자가 30세가 되기 전에 혼인한 경우에는 혼인관계증명서 상 최초 혼인신고일)부터 산정. ※ 공고일 현재 30세 미만이면서 혼인한 적이 없는 분은 가점대상이 아니므로 해 당없음(0점) 선택",
+              "sourcePage": 19
+            },
+            {
+              "key": "provinceResidency",
+              "label": "(3) 해당 시·도 연속 거주기간(경기도)",
+              "options": [
+                {
+                  "condition": "2년 이상",
+                  "points": 3
+                },
+                {
+                  "condition": "1년 이상 2년 미만",
+                  "points": 2
+                },
+                {
+                  "condition": "1년 미만",
+                  "points": 1
+                },
+                {
+                  "condition": "미거주",
+                  "points": 0
+                }
+              ],
+              "notes": "• 시는 특별시ㆍ광역시ㆍ특별자치시 기준이고, 도는 도ㆍ특별자치도 기준 • 공고일 현재 경기도에 주민등록표등본상 계속해서 거주한 기간을 말하며, 해당 지역에 거주하지 않을 경우 미거주(0점) 선택 • 10년/25년 이상 장기복무군인으로 청약하는 자가 해당 지역에 실제로 거 주하지 않을 경우 미거주(0점) 선택",
+              "sourcePage": 19
+            },
+            {
+              "key": "subscriptionPayments",
+              "label": "(4) 주택청약종합저축 납입인정 횟수",
+              "options": [
+                {
+                  "condition": "24회 이상",
+                  "points": 3
+                },
+                {
+                  "condition": "12회 이상 23회 이하",
+                  "points": 2
+                },
+                {
+                  "condition": "6회 이상 11회 이하",
+                  "points": 1
+                }
+              ],
+              "notes": "• 청약통장 순위(가입) 확인서의 납입인정 횟수를 말함 ※ 단, 청약예금 및 청약부금에서 주택청약종합저축으로 전환한 경우에는 전환일부터 산정",
+              "sourcePage": 19
+            }
+          ]
+        },
+        {
+          "name": "추첨공급",
+          "allocation": "잔여물량",
+          "method": "추첨",
+          "sourcePage": 19,
+          "scoreItems": []
+        }
+      ]
+    },
+    "slug": "sale-1505",
+    "location": "경기 안산시 단원구",
+    "eligibility": {
+      "sourcePage": 16,
+      "summary": "신혼부부, 예비신혼부부 또는 한부모가족을 대상으로 합니다. 본청약 자격은 거주 요건, 무주택, 청약통장, 소득·자산 등을 공급 단계별로 확인해야 합니다."
+    }
+  }
+]

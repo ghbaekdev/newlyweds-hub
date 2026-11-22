@@ -1,8 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
+  // useMemo/useCallback 대신 컴파일러가 메모이제이션한다 (docs/conventions.md)
+  reactCompiler: true,
   partialPrefetching: true,
   turbopack: {
     rules: {

@@ -1,27 +1,29 @@
-import Link from 'next/link';
+import SupportHubView from '@/views/support-hubs/ui/SupportHubView';
 
-export default function Home() {
-  return (
-    <main className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6">
-      <h1 className="text-2xl font-bold">newlyweds-test</h1>
-      <p className="mt-2 text-sm text-zinc-500">신혼부부 공고·혜택 서비스 API 실험장</p>
-      <ul className="mt-6 list-disc space-y-1 pl-5">
-        <li>
-          <Link href="/benefits" className="text-blue-600 underline">
-            신혼부부 혜택 찾기 (Supabase 정규화 데이터)
-          </Link>
-        </li>
-        <li>
-          <Link href="/benefits/raw" className="text-blue-600 underline">
-            보조금24 공공서비스(혜택) API 원본 탐색
-          </Link>
-        </li>
-        <li>
-          <Link href="/housing" className="text-blue-600 underline">
-            마이홈 공공임대·공공분양 — 신혼부부 주택 공고
-          </Link>
-        </li>
-      </ul>
-    </main>
-  );
+import { getBenefits } from '@/entities/benefits/api/getBenefits';
+import { BenefitRelevance } from '@/entities/benefits/model/types';
+import { getMyhomeCatalog } from '@/entities/housing-notices/api/getMyhomeCatalog';
+import { getMyhomeNoticeDetails } from '@/entities/housing-notices/api/getMyhomeNoticeDetails';
+import { isNewlywedNotice } from '@/entities/housing-notices/lib/isNewlywedNotice';
+import { toMyhomeNoticeSummary } from '@/entities/housing-notices/lib/toMyhomeNoticeSummary';
+
+export default async function Home() {
+  const [housing, benefits] = await Promise.allSettled([getMyhomeCatalog(), getBenefits()]);
+  const notices =
+    housing.status === 'fulfilled'
+      ? housing.value
+        ? housing.value.notices
+            .filter(({ title }) => isNewlywedNotice(title))
+            .slice(0, 2)
+            .map(toMyhomeNoticeSummary)
+        : getMyhomeNoticeDetails().slice(0, 2)
+      : null;
+  const previews =
+    benefits.status === 'fulfilled'
+      ? benefits.value
+          .filter((item) => item.relevance === BenefitRelevance.CORE && !item.stale_suspect)
+          .slice(0, 2)
+      : null;
+
+  return <SupportHubView notices={notices} benefits={previews} />;
 }

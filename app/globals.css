@@ -1,4 +1,9 @@
 @import 'tailwindcss';
+@source '../app';
+@source '../features';
+@source '../shared';
+@source '../views';
+@source '../widgets';
 
 :root {
   --background: #ffffff;
@@ -28,4 +33,40 @@ body {
     'Apple SD Gothic Neo',
     'Malgun Gothic',
     sans-serif;
+}
+
+@theme {
+  --color-hub-bg: #f3f6f8;
+  --color-hub-ink: #142438;
+  --color-hub-muted: #4c6074;
+  --color-hub-accent: #184e83;
+  --color-hub-soft: #e5eef8;
+  --color-hub-line: #d7e0e8;
+  --color-hub-navy: #193854;
+}
+
+@utility hub-container {
+  @apply mx-auto w-full max-w-[72.5rem] px-4 sm:px-7;
+}
+
+@utility hub-page {
+  @apply bg-hub-bg text-hub-ink flex-1;
+  color-scheme: light;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+@utility hub-catalog {
+  @apply grid min-w-0 items-start gap-4 md:grid-cols-[15rem_minmax(0,1fr)] md:gap-6;
+}
+
+@utility hub-field {
+  @apply border-hub-line text-hub-ink disabled:bg-hub-bg disabled:text-hub-muted min-h-11 w-full min-w-0 rounded-md border bg-white px-2.5 text-base;
+}
+
+@layer components {
+  .hub-field::placeholder {
+    color: var(--color-hub-muted);
+    opacity: 1;
+  }
 }

@@ -1,11 +1,10 @@
 import 'server-only';
 
+import { isNewlywedNotice } from '../lib/isNewlywedNotice';
 import { MyhomeKind } from '../model/types';
 import type { MyhomeItem } from '../model/types';
 import { myhomeAll } from './housingClient';
 import type { Row } from './housingClient';
-
-const NEWLYWED_RE = /신혼|신생아|예비부부/;
 
 /** 최근 6개월 마이홈 공공임대·공공분양 모집공고 (공고 단위, 최신순) */
 export async function loadMyhome(): Promise<MyhomeItem[]> {
@@ -41,7 +40,7 @@ export async function loadMyhome(): Promise<MyhomeItem[]> {
         beginDate: String(r.beginDe ?? ''),
         endDate: String(r.endDe ?? ''),
         url: String(r.url ?? r.pcUrl ?? ''),
-        newlyweds: NEWLYWED_RE.test(String(r.pblancNm ?? '')),
+        newlyweds: isNewlywedNotice(String(r.pblancNm ?? '')),
       };
     });
   };

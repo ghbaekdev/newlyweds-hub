@@ -2,11 +2,11 @@
 
 ## 서버 데이터
 
-| 경우 | 방법 |
-|---|---|
-| 페이지 진입 시 한 번 받으면 되는 데이터 | `page.tsx`(Server Component)에서 entity API 호출 → view에 props |
-| 자주 안 바뀌는 데이터 | entity API에 `'use cache'` + `cacheLife` + `cacheTag` (`next.config.ts`의 `cacheComponents: true`) |
-| 사용자가 새로 받기를 누르는 데이터 | `app/api/*/route.ts` + `features/{domain}/model/use*.ts`의 `fetch` |
+| 경우                                    | 방법                                                                                               |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| 페이지 진입 시 한 번 받으면 되는 데이터 | `page.tsx`(Server Component)에서 entity API 호출 → view에 props                                    |
+| 자주 안 바뀌는 데이터                   | entity API에 `'use cache'` + `cacheLife` + `cacheTag` (`next.config.ts`의 `cacheComponents: true`) |
+| 사용자가 새로 받기를 누르는 데이터      | `app/api/*/route.ts` + `features/{domain}/model/use*.ts`의 `fetch`                                 |
 
 클라이언트 fetch 훅은 `{ data, error, isLoading, reload }`를 돌려준다. 언마운트·재요청 시 이전 응답을 버리도록 `cancelled` 플래그를 둔다.
 

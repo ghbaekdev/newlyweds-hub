@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from 'react';
 
 type Hit = { field: string; keyword: string; snippet: string };
 type Item = {
@@ -24,7 +24,7 @@ type Result = {
   loadedCount: number;
   matchedCount: number;
   keywords: string[];
-  stats: Record<"byKeyword" | "byField" | "byOrgType" | "byServiceField", [string, number][]>;
+  stats: Record<'byKeyword' | 'byField' | 'byOrgType' | 'byServiceField', [string, number][]>;
   items: Item[];
 };
 type Detail = {
@@ -37,8 +37,8 @@ export default function BenefitsExplorer() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeKeywords, setActiveKeywords] = useState<Set<string>>(new Set());
-  const [orgType, setOrgType] = useState("");
-  const [query, setQuery] = useState("");
+  const [orgType, setOrgType] = useState('');
+  const [query, setQuery] = useState('');
   const [open, setOpen] = useState<string | null>(null);
 
   const [request, setRequest] = useState({ n: 0, refresh: false });
@@ -51,13 +51,13 @@ export default function BenefitsExplorer() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`/api/gov24/newlywed${request.refresh ? "?refresh=1" : ""}`)
+    fetch(`/api/gov24/newlywed${request.refresh ? '?refresh=1' : ''}`)
       .then(async (res) => {
         const json = await res.json();
         if (!res.ok) throw new Error(json.error ?? res.statusText);
         if (cancelled) return;
         setData(json);
-        setActiveKeywords(new Set((json as Result).keywords.filter((k) => k !== "결혼이민")));
+        setActiveKeywords(new Set((json as Result).keywords.filter((k) => k !== '결혼이민')));
       })
       .catch((e) => !cancelled && setError(e instanceof Error ? e.message : String(e)))
       .finally(() => !cancelled && setLoading(false));
@@ -83,7 +83,8 @@ export default function BenefitsExplorer() {
         <div>
           <h1 className="text-2xl font-bold">신혼부부 혜택 탐색 (보조금24 API 테스트)</h1>
           <p className="mt-1 text-sm text-zinc-500">
-            행정안전부 공공서비스(혜택) 정보 전체 목록에서 서비스명·목적·지원대상·선정기준·지원내용을 키워드로 찾습니다.
+            행정안전부 공공서비스(혜택) 정보 전체 목록에서
+            서비스명·목적·지원대상·선정기준·지원내용을 키워드로 찾습니다.
           </p>
         </div>
         <button
@@ -91,7 +92,7 @@ export default function BenefitsExplorer() {
           disabled={loading}
           className="rounded-md border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-900"
         >
-          {loading ? "불러오는 중…" : "API에서 새로 받기"}
+          {loading ? '불러오는 중…' : 'API에서 새로 받기'}
         </button>
       </header>
 
@@ -101,7 +102,11 @@ export default function BenefitsExplorer() {
         </div>
       )}
 
-      {loading && !data && <p className="text-sm text-zinc-500">전체 서비스 목록을 받는 중입니다 (처음엔 10~30초 걸려요)…</p>}
+      {loading && !data && (
+        <p className="text-sm text-zinc-500">
+          전체 서비스 목록을 받는 중입니다 (처음엔 10~30초 걸려요)…
+        </p>
+      )}
 
       {data && (
         <>
@@ -132,8 +137,8 @@ export default function BenefitsExplorer() {
                   }}
                   className={`rounded-full border px-3 py-1 text-sm ${
                     on
-                      ? "border-rose-500 bg-rose-500 text-white"
-                      : "border-zinc-300 text-zinc-600 dark:border-zinc-700 dark:text-zinc-400"
+                      ? 'border-rose-500 bg-rose-500 text-white'
+                      : 'border-zinc-300 text-zinc-600 dark:border-zinc-700 dark:text-zinc-400'
                   }`}
                 >
                   {k} <span className="opacity-75">{n}</span>
@@ -147,7 +152,7 @@ export default function BenefitsExplorer() {
             >
               <option value="">소관기관유형 전체</option>
               {data.stats.byOrgType.map(([k]) => (
-                <option key={k} value={k === "(없음)" ? "" : k}>
+                <option key={k} value={k === '(없음)' ? '' : k}>
                   {k}
                 </option>
               ))}
@@ -161,13 +166,16 @@ export default function BenefitsExplorer() {
           </section>
 
           <p className="mb-3 text-xs text-zinc-500">
-            캐시 시각 {new Date(data.fetchedAt).toLocaleString("ko-KR")} · 조회수 순 정렬
+            캐시 시각 {new Date(data.fetchedAt).toLocaleString('ko-KR')} · 조회수 순 정렬
           </p>
 
           <ul className="divide-y divide-zinc-200 rounded-md border border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800">
             {filtered.slice(0, 300).map((i) => (
               <li key={i.id} className="p-4">
-                <button className="w-full text-left" onClick={() => setOpen(open === i.id ? null : i.id)}>
+                <button
+                  className="w-full text-left"
+                  onClick={() => setOpen(open === i.id ? null : i.id)}
+                >
                   <div className="flex flex-wrap items-baseline gap-x-2">
                     <span className="font-semibold">{i.name}</span>
                     <span className="text-xs text-zinc-500">
@@ -176,7 +184,10 @@ export default function BenefitsExplorer() {
                   </div>
                   <div className="mt-1 flex flex-wrap gap-1">
                     {i.keywords.map((k) => (
-                      <span key={k} className="rounded bg-rose-100 px-1.5 text-xs text-rose-700 dark:bg-rose-950 dark:text-rose-300">
+                      <span
+                        key={k}
+                        className="rounded bg-rose-100 px-1.5 text-xs text-rose-700 dark:bg-rose-950 dark:text-rose-300"
+                      >
                         {k}
                       </span>
                     ))}
@@ -193,9 +204,13 @@ export default function BenefitsExplorer() {
                 {open === i.id && <ServiceDetail id={i.id} url={i.url} />}
               </li>
             ))}
-            {filtered.length === 0 && <li className="p-4 text-sm text-zinc-500">조건에 맞는 서비스가 없습니다.</li>}
+            {filtered.length === 0 && (
+              <li className="p-4 text-sm text-zinc-500">조건에 맞는 서비스가 없습니다.</li>
+            )}
           </ul>
-          {filtered.length > 300 && <p className="mt-2 text-xs text-zinc-500">상위 300건만 표시합니다.</p>}
+          {filtered.length > 300 && (
+            <p className="mt-2 text-xs text-zinc-500">상위 300건만 표시합니다.</p>
+          )}
         </>
       )}
     </div>
@@ -219,7 +234,7 @@ function Breakdown({ title, rows }: { title: string; rows: [string, number][] })
         {rows.slice(0, 6).map(([k, n]) => (
           <li key={k} className="flex justify-between gap-2">
             <span className="truncate">{k}</span>
-            <span className="tabular-nums text-zinc-500">{n}</span>
+            <span className="text-zinc-500 tabular-nums">{n}</span>
           </li>
         ))}
       </ul>
@@ -244,7 +259,17 @@ function Highlight({ text }: { text: string }) {
   );
 }
 
-const DETAIL_FIELDS = ["서비스목적", "지원대상", "선정기준", "지원내용", "신청방법", "신청기한", "구비서류", "접수기관명", "문의처"];
+const DETAIL_FIELDS = [
+  '서비스목적',
+  '지원대상',
+  '선정기준',
+  '지원내용',
+  '신청방법',
+  '신청기한',
+  '구비서류',
+  '접수기관명',
+  '문의처',
+];
 
 function ServiceDetail({ id, url }: { id: string; url: string }) {
   const [d, setD] = useState<Detail | null>(null);
@@ -271,15 +296,21 @@ function ServiceDetail({ id, url }: { id: string; url: string }) {
         <div className="flex flex-wrap gap-1">
           {(conditions.ageFrom != null || conditions.ageTo != null) && (
             <span className="rounded border border-zinc-300 px-1.5 text-xs dark:border-zinc-700">
-              연령 {String(conditions.ageFrom ?? "")}~{String(conditions.ageTo ?? "")}
+              연령 {String(conditions.ageFrom ?? '')}~{String(conditions.ageTo ?? '')}
             </span>
           )}
           {conditions.flags.map((f) => (
-            <span key={f.code} className="rounded border border-zinc-300 px-1.5 text-xs dark:border-zinc-700" title={f.code}>
+            <span
+              key={f.code}
+              className="rounded border border-zinc-300 px-1.5 text-xs dark:border-zinc-700"
+              title={f.code}
+            >
               {f.label}
             </span>
           ))}
-          {conditions.flags.length === 0 && <span className="text-xs text-zinc-500">표시된 조건 없음</span>}
+          {conditions.flags.length === 0 && (
+            <span className="text-xs text-zinc-500">표시된 조건 없음</span>
+          )}
         </div>
       </div>
       {d.detail &&
@@ -292,7 +323,12 @@ function ServiceDetail({ id, url }: { id: string; url: string }) {
           </div>
         ))}
       {url && (
-        <a href={url} target="_blank" rel="noreferrer" className="inline-block text-xs text-blue-600 underline">
+        <a
+          href={url}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-block text-xs text-blue-600 underline"
+        >
           보조금24에서 보기
         </a>
       )}

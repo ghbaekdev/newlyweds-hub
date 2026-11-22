@@ -1,7 +1,7 @@
-import { findNewlywedHits, Gov24Error, loadAllServices, NEWLYWED_KEYWORDS } from "@/lib/gov24";
+import { findNewlywedHits, Gov24Error, loadAllServices, NEWLYWED_KEYWORDS } from '@/lib/gov24';
 
 export async function GET(request: Request) {
-  const refresh = new URL(request.url).searchParams.get("refresh") === "1";
+  const refresh = new URL(request.url).searchParams.get('refresh') === '1';
   try {
     const snap = await loadAllServices(refresh);
 
@@ -10,15 +10,15 @@ export async function GET(request: Request) {
       .filter((x) => x.hits.length > 0)
       .map(({ service: s, hits }) => ({
         id: s.서비스ID,
-        name: s.서비스명 ?? "",
-        org: s.소관기관명 ?? "",
-        orgType: s.소관기관유형 ?? "",
-        field: s.서비스분야 ?? "",
-        supportType: s.지원유형 ?? "",
-        target: s.지원대상 ?? "",
-        content: s.지원내용 ?? "",
-        deadline: s.신청기한 ?? "",
-        url: s.상세조회URL ?? "",
+        name: s.서비스명 ?? '',
+        org: s.소관기관명 ?? '',
+        orgType: s.소관기관유형 ?? '',
+        field: s.서비스분야 ?? '',
+        supportType: s.지원유형 ?? '',
+        target: s.지원대상 ?? '',
+        content: s.지원내용 ?? '',
+        deadline: s.신청기한 ?? '',
+        url: s.상세조회URL ?? '',
         views: s.조회수 ?? 0,
         keywords: [...new Set(hits.map((h) => h.keyword))],
         hits,
@@ -40,8 +40,8 @@ export async function GET(request: Request) {
       stats: {
         byKeyword: count((i) => i.keywords),
         byField: count((i) => [...new Set(i.hits.map((h) => h.field))]),
-        byOrgType: count((i) => [i.orgType || "(없음)"]),
-        byServiceField: count((i) => [i.field || "(없음)"]),
+        byOrgType: count((i) => [i.orgType || '(없음)']),
+        byServiceField: count((i) => [i.field || '(없음)']),
       },
       items,
     });

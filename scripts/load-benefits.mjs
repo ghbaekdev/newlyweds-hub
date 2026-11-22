@@ -2,25 +2,27 @@
 // 정규화한 혜택 데이터를 Supabase에 upsert 한다.
 //   node --env-file=.env.local scripts/load-benefits.mjs [data/benefits.sources.json] [data/benefits.normalized.json]
 // 필요 env: NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SECRET_KEY
-import { readFileSync } from "node:fs";
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from '@supabase/supabase-js';
+import { readFileSync } from 'node:fs';
 
-const [sourcesPath = "data/benefits.sources.json", normalizedPath = "data/benefits.normalized.json"] =
-  process.argv.slice(2);
+const [
+  sourcesPath = 'data/benefits.sources.json',
+  normalizedPath = 'data/benefits.normalized.json',
+] = process.argv.slice(2);
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const key = process.env.SUPABASE_SECRET_KEY;
 if (!url || !key) {
-  console.error("NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SECRET_KEY 가 .env.local에 필요합니다.");
+  console.error('NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SECRET_KEY 가 .env.local에 필요합니다.');
   process.exit(1);
 }
 const db = createClient(url, key, { auth: { persistSession: false } });
 
-const sources = JSON.parse(readFileSync(sourcesPath, "utf8"));
-const normalized = JSON.parse(readFileSync(normalizedPath, "utf8"));
+const sources = JSON.parse(readFileSync(sourcesPath, 'utf8'));
+const normalized = JSON.parse(readFileSync(normalizedPath, 'utf8'));
 
 const sourceRows = sources.map((s) => ({
   service_id: s.service_id,
-  source: "gov24",
+  source: 'gov24',
   source_hash: s.source_hash,
   raw: s,
 }));
@@ -69,11 +71,13 @@ const benefitRows = normalized.map((b) => {
 
 async function upsert(table, rows) {
   for (let i = 0; i < rows.length; i += 100) {
-    const { error } = await db.from(table).upsert(rows.slice(i, i + 100), { onConflict: "service_id" });
+    const { error } = await db
+      .from(table)
+      .upsert(rows.slice(i, i + 100), { onConflict: 'service_id' });
     if (error) throw new Error(`${table}: ${error.message}`);
   }
   console.log(`${table}: ${rows.length} rows upserted`);
 }
 
-await upsert("benefit_sources", sourceRows);
-await upsert("benefits", benefitRows);
+await upsert('benefit_sources', sourceRows);
+await upsert('benefits', benefitRows);

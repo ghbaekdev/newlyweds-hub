@@ -10,9 +10,8 @@ entities/{domain}/model/   — 타입, const 객체, 라벨
 
 ```typescript
 // entities/benefits/api/getBenefits.ts
-import 'server-only';
-
 import { cacheLife, cacheTag } from 'next/cache';
+import 'server-only';
 
 import { createServerSupabase } from '@/shared/lib/supabase/serverClient';
 

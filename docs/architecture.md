@@ -44,39 +44,39 @@ app → views → widgets → features → entities → shared
 - shared는 어디서든 참조한다
 - 역방향 참조는 금지한다
 
-| 레이어 | 역할 | 예시 |
-|--------|------|------|
-| **app** | 라우팅, 레이아웃, 서버 데이터 조회 | `app/benefits/page.tsx` |
-| **views** | 라우트 하나의 화면 조합 | `BenefitsView` |
-| **widgets** | 재사용 가능한 읽기 전용 블록 | `BenefitCard`, `ApplyhomeTable` |
-| **features** | 필터·새로고침 등 사용자 기능 | `useBenefitFilters`, `ServiceDetail` |
-| **entities** | 순수 API, 타입, 변환 | `getBenefits`, `Benefit` |
-| **shared** | 공통 유틸, UI | `formatWon`, `StatCard` |
+| 레이어       | 역할                               | 예시                                 |
+| ------------ | ---------------------------------- | ------------------------------------ |
+| **app**      | 라우팅, 레이아웃, 서버 데이터 조회 | `app/benefits/page.tsx`              |
+| **views**    | 라우트 하나의 화면 조합            | `BenefitsView`                       |
+| **widgets**  | 재사용 가능한 읽기 전용 블록       | `BenefitCard`, `ApplyhomeTable`      |
+| **features** | 필터·새로고침 등 사용자 기능       | `useBenefitFilters`, `ServiceDetail` |
+| **entities** | 순수 API, 타입, 변환               | `getBenefits`, `Benefit`             |
+| **shared**   | 공통 유틸, UI                      | `formatWon`, `StatCard`              |
 
 ## 클라이언트/서버 경계
 
-- `entities/*/api/*`는 첫 줄에 `import 'server-only';`를 둔다. 클라이언트 컴포넌트는 여기서 **타입만** `import type`으로 가져온다.
+- `entities/*/api/*`에는 `import 'server-only';`를 둔다 (import 정렬로 위치는 바뀌어도 된다). 클라이언트 컴포넌트는 여기서 **타입만** `import type`으로 가져온다.
 - `entities/*/model/*`, `entities/*/lib/*`는 서버 전용 import(`node:fs`, Supabase 등)를 두지 않는다. 그래야 클라이언트에서도 상수·라벨을 쓸 수 있다.
 - `'use client'`는 views와, 상태를 쓰는 features/widgets 컴포넌트에만 둔다.
 
 ## 현재 도메인 구조
 
-| 도메인 | entities | features | widgets | views | 라우트 |
-|---|---|---|---|---|---|
-| `benefits` (Supabase 정규화 혜택) | ✓ | ✓ | ✓ | ✓ | `/benefits` |
-| `gov24-services` (보조금24 원본) | ✓ | ✓ | ✓ | ✓ | `/benefits/raw`, `/api/gov24/*` |
-| `housing-notices` (청약홈·마이홈) | ✓ | ✓ | ✓ | ✓ | `/housing`, `/api/housing` |
+| 도메인                            | entities | features | widgets | views | 라우트                          |
+| --------------------------------- | -------- | -------- | ------- | ----- | ------------------------------- |
+| `benefits` (Supabase 정규화 혜택) | ✓        | ✓        | ✓       | ✓     | `/benefits`                     |
+| `gov24-services` (보조금24 원본)  | ✓        | ✓        | ✓       | ✓     | `/benefits/raw`, `/api/gov24/*` |
+| `housing-notices` (청약홈·마이홈) | ✓        | ✓        | ✓       | ✓     | `/housing`, `/api/housing`      |
 
 ## Important Paths
 
-| 용도 | 경로 |
-|------|------|
-| 환경변수 | `.env.local` (예시: `.env.example`) |
-| Supabase 서버 클라이언트 | `shared/lib/supabase/serverClient.ts` |
-| 공공데이터포털 인증키·에러 | `shared/lib/api/dataGoKr.ts` |
-| 보조금24 클라이언트 | `shared/lib/api/gov24Client.ts` |
-| Entity API | `entities/[entity]/api/` |
-| Entity 타입·라벨 | `entities/[entity]/model/types.ts` |
-| 정적 데이터 | `data/regions.json`, `data/benefits.*.json` |
-| DB 스키마 | `supabase/migrations/` |
-| 적재 스크립트 | `scripts/load-benefits.mjs` |
+| 용도                       | 경로                                        |
+| -------------------------- | ------------------------------------------- |
+| 환경변수                   | `.env.local` (예시: `.env.example`)         |
+| Supabase 서버 클라이언트   | `shared/lib/supabase/serverClient.ts`       |
+| 공공데이터포털 인증키·에러 | `shared/lib/api/dataGoKr.ts`                |
+| 보조금24 클라이언트        | `shared/lib/api/gov24Client.ts`             |
+| Entity API                 | `entities/[entity]/api/`                    |
+| Entity 타입·라벨           | `entities/[entity]/model/types.ts`          |
+| 정적 데이터                | `data/regions.json`, `data/benefits.*.json` |
+| DB 스키마                  | `supabase/migrations/`                      |
+| 적재 스크립트              | `scripts/load-benefits.mjs`                 |

@@ -25,10 +25,10 @@ React Query, axios `privateInstance`, `useLoading`, nuqs, Zustand, shadcn/ui는 
 
 ## Docs
 
-| 문서 | 내용 |
-|------|------|
-| [Architecture](docs/architecture.md) | FSD 디렉토리 구조, 레이어 규칙, 현재 도메인, Important Paths |
-| [Conventions](docs/conventions.md) | 네이밍, Import, 컴포넌트 구조, 타입/const 패턴, Props Drilling |
-| [State Management](docs/state-management.md) | 서버 데이터 흐름, 클라이언트 상태 |
-| [Patterns](docs/patterns.md) | Entity API, 페이지 구성, API Route |
-| [Commands](docs/commands.md) | dev/build/lint/format, 데이터 적재 |
+| 문서                                         | 내용                                                           |
+| -------------------------------------------- | -------------------------------------------------------------- |
+| [Architecture](docs/architecture.md)         | FSD 디렉토리 구조, 레이어 규칙, 현재 도메인, Important Paths   |
+| [Conventions](docs/conventions.md)           | 네이밍, Import, 컴포넌트 구조, 타입/const 패턴, Props Drilling |
+| [State Management](docs/state-management.md) | 서버 데이터 흐름, 클라이언트 상태                              |
+| [Patterns](docs/patterns.md)                 | Entity API, 페이지 구성, API Route                             |
+| [Commands](docs/commands.md)                 | dev/build/lint/format, 데이터 적재                             |

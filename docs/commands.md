@@ -4,11 +4,11 @@
 
 `.env.example`을 `.env.local`로 복사해 채운다.
 
-| 변수 | 용도 |
-|---|---|
-| `DATA_GO_KR_SERVICE_KEY` | 공공데이터포털 인증키 (보조금24·청약홈·마이홈) |
-| `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | 혜택 조회 |
-| `SUPABASE_SECRET_KEY` | 적재 스크립트 전용 |
+| 변수                                                               | 용도                                           |
+| ------------------------------------------------------------------ | ---------------------------------------------- |
+| `DATA_GO_KR_SERVICE_KEY`                                           | 공공데이터포털 인증키 (보조금24·청약홈·마이홈) |
+| `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | 혜택 조회                                      |
+| `SUPABASE_SECRET_KEY`                                              | 적재 스크립트 전용                             |
 
 ## 개발 / 빌드
 

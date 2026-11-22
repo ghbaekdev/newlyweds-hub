@@ -4,14 +4,14 @@
 
 ### 파일명
 
-| 대상 | 규칙 | 예시 |
-|------|------|------|
-| 컴포넌트 | `PascalCase.tsx` | `BenefitCard.tsx` |
-| 페이지 | `page.tsx` | Next.js 규칙 |
-| hooks | `use[Name].ts` | `useBenefitFilters.ts` |
-| API 함수 | 함수명 그대로 `camelCase.ts` | `getBenefits.ts` |
-| 타입 | `types.ts` | |
-| 유틸리티 | `camelCase.ts` | `filterBenefits.ts` |
+| 대상     | 규칙                         | 예시                   |
+| -------- | ---------------------------- | ---------------------- |
+| 컴포넌트 | `PascalCase.tsx`             | `BenefitCard.tsx`      |
+| 페이지   | `page.tsx`                   | Next.js 규칙           |
+| hooks    | `use[Name].ts`               | `useBenefitFilters.ts` |
+| API 함수 | 함수명 그대로 `camelCase.ts` | `getBenefits.ts`       |
+| 타입     | `types.ts`                   |                        |
+| 유틸리티 | `camelCase.ts`               | `filterBenefits.ts`    |
 
 ### 폴더명
 
@@ -20,13 +20,13 @@
 
 ### 함수/변수명
 
-| 대상 | 규칙 | 예시 |
-|------|------|------|
-| 컴포넌트/타입명 | `PascalCase` | `BenefitCard`, `BenefitCardProps` |
-| 일반 함수 | `camelCase` | `formatWon` |
-| 상수 | `UPPER_SNAKE_CASE` | `CACHE_FILE` |
-| 이벤트 핸들러 | `handle` 접두사 | `handleSidoChange` |
-| Boolean | `is/has/can/should` | `isLoading` |
+| 대상            | 규칙                | 예시                              |
+| --------------- | ------------------- | --------------------------------- |
+| 컴포넌트/타입명 | `PascalCase`        | `BenefitCard`, `BenefitCardProps` |
+| 일반 함수       | `camelCase`         | `formatWon`                       |
+| 상수            | `UPPER_SNAKE_CASE`  | `CACHE_FILE`                      |
+| 이벤트 핸들러   | `handle` 접두사     | `handleSidoChange`                |
+| Boolean         | `is/has/can/should` | `isLoading`                       |
 
 ## Import 순서
 
@@ -38,15 +38,17 @@ import { useState } from 'react';
 
 // 2. 내부 — 레이어 위에서 아래로
 import BenefitCard from '@/widgets/benefits/ui/BenefitCard';
+
 import { filterBenefits } from '@/features/benefits/lib/filterBenefits';
+
 import { BenefitCategoryLabel } from '@/entities/benefits/model/types';
+// 타입은 `import type`으로
+import type { Benefit } from '@/entities/benefits/model/types';
+
 import { formatWon } from '@/shared/lib/format';
 
 // 3. 상대 경로
 import './globals.css';
-
-// 타입은 `import type`으로
-import type { Benefit } from '@/entities/benefits/model/types';
 ```
 
 ## 컴포넌트 구조
@@ -100,11 +102,11 @@ export const MaritalStatusOptions = Object.entries(MaritalStatusLabel).map(([val
 
 ### 타입 위치
 
-| 유형 | 위치 |
-|------|------|
-| 도메인 데이터 | `entities/{domain}/model/types.ts` |
+| 유형                     | 위치                               |
+| ------------------------ | ---------------------------------- |
+| 도메인 데이터            | `entities/{domain}/model/types.ts` |
 | 기능 전용 (필터 상태 등) | `features/{domain}/model/types.ts` |
-| 여러 도메인 공통 | `shared/types/` |
+| 여러 도메인 공통         | `shared/types/`                    |
 
 ## 조기 추상화 방지
 

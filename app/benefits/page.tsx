@@ -1,6 +1,7 @@
 import regions from '@/data/regions.json';
-import { getBenefits } from '@/lib/benefits';
 import Link from 'next/link';
+
+import { getBenefits } from '@/entities/benefits/api/getBenefits';
 
 import BenefitsBrowser from './BenefitsBrowser';
 

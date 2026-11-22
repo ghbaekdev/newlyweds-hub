@@ -1,7 +1,8 @@
 'use client';
 
-import type { Benefit, Scope } from '@/lib/benefits';
 import { useMemo, useState } from 'react';
+
+import type { Benefit, EligibilityScope as Scope } from '@/entities/benefits/model/types';
 
 const CATEGORY: Record<string, string> = {
   housing_loan: '주택 대출이자',
@@ -291,7 +292,7 @@ function Chip({
 function BenefitCard({ b }: { b: Benefit }) {
   const [open, setOpen] = useState(false);
   const region = b.level === 'national' ? '전국' : [b.sido, b.sigungu].filter(Boolean).join(' ');
-  const scope = (s: Scope) => (s ? ` (${SCOPE[s]})` : '');
+  const scope = (s: Scope | null) => (s ? ` (${SCOPE[s]})` : '');
   const income =
     b.income_kind === 'median_pct' && b.income_max_median_pct
       ? `중위소득 ${b.income_max_median_pct}% 이하`

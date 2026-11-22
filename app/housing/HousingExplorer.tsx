@@ -1,7 +1,12 @@
 'use client';
 
-import type { ApplyhomeItem, HousingSnapshot, MyhomeItem } from '@/lib/housing';
 import { useEffect, useMemo, useState } from 'react';
+
+import type {
+  ApplyhomeItem,
+  HousingSnapshot,
+  MyhomeItem,
+} from '@/entities/housing-notices/model/types';
 
 type Tab = 'applyhome' | 'myhome';
 

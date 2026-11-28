@@ -43,3 +43,7 @@ next-env.d.ts
 
 # local API cache
 /.cache
+
+# local development tools
+/.claude/launch.json
+/.oil-ui/

@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { AuthIssue } from '@/features/account-sessions/lib/loginPath';
 import { accountPath } from '@/features/account-sessions/lib/returnPath';
 
+import Button from '@/shared/ui/Button';
+
 const messages = {
   [AuthIssue.CANCELLED]: '카카오 로그인을 취소했어요. 언제든 다시 시도할 수 있어요.',
   [AuthIssue.LOGIN_FAILED]: '카카오 로그인에 실패했어요. 잠시 후 다시 시도해 주세요.',
@@ -31,12 +33,12 @@ export default function LoginView({ next, issue }: LoginViewProps) {
           )}
           <form method="post" action="/auth/kakao" className="mt-6">
             <input type="hidden" name="next" value={next} />
-            <button
+            <Button
               type="submit"
               className="flex min-h-11 w-full cursor-pointer items-center justify-center rounded-md bg-[#fee500] px-4 text-sm font-semibold text-[#191919] hover:bg-[#f1d900]"
             >
               카카오로 계속하기
-            </button>
+            </Button>
           </form>
           <Link
             href={next === accountPath ? '/' : next}

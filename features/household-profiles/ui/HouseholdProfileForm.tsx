@@ -4,6 +4,12 @@ import { useActionState, useState } from 'react';
 
 import type { HouseholdProfile } from '@/entities/household-profiles/model/types';
 
+import Button from '@/shared/ui/Button';
+import FieldSet from '@/shared/ui/FieldSet';
+import Input from '@/shared/ui/Input';
+import Label from '@/shared/ui/Label';
+import NativeSelect from '@/shared/ui/NativeSelect';
+
 import { MarriageStatusChoice } from '../lib/parseHouseholdProfile';
 import { saveHouseholdProfile } from '../model/saveHouseholdProfile';
 import DesiredRegionFields from './DesiredRegionFields';
@@ -28,7 +34,7 @@ export default function HouseholdProfileForm({ profile }: HouseholdProfileFormPr
 
   return (
     <form action={action} className="mt-4">
-      <fieldset disabled={pending} className="grid gap-6">
+      <FieldSet disabled={pending} className="grid gap-6">
         <DesiredRegionFields initialRegions={profile?.desired_regions ?? []} />
         <div className="grid gap-4 lg:grid-cols-2">
           <HouseholdPersonFields person="applicant" label="신청자" profile={profile} />
@@ -39,10 +45,9 @@ export default function HouseholdProfileForm({ profile }: HouseholdProfileFormPr
           />
         </div>
         <div className="grid gap-3 sm:grid-cols-3">
-          <label className="grid gap-1.5 text-sm font-medium">
+          <Label className="grid gap-1.5 text-sm font-medium">
             혼인 상태
-            <select
-              className="hub-field"
+            <NativeSelect
               name="marriage_status"
               value={marriageStatus}
               onChange={(event) => setMarriageStatus(event.target.value)}
@@ -51,22 +56,20 @@ export default function HouseholdProfileForm({ profile }: HouseholdProfileFormPr
               <option value={MarriageStatusChoice.PROSPECTIVE}>예비부부</option>
               <option value={MarriageStatusChoice.MARRIED}>혼인신고 함</option>
               <option value={MarriageStatusChoice.OTHER}>그 외</option>
-            </select>
-          </label>
-          <label className="grid gap-1.5 text-sm font-medium">
+            </NativeSelect>
+          </Label>
+          <Label className="grid gap-1.5 text-sm font-medium">
             혼인신고일
-            <input
-              className="hub-field"
+            <Input
               name="marriage_registered_on"
               type="date"
               value={registeredOn}
               onChange={(event) => setRegisteredOn(event.target.value)}
             />
-          </label>
-          <label className="grid gap-1.5 text-sm font-medium">
+          </Label>
+          <Label className="grid gap-1.5 text-sm font-medium">
             가구원 수 (명)
-            <input
-              className="hub-field"
+            <Input
               name="household_size"
               type="text"
               inputMode="numeric"
@@ -74,15 +77,16 @@ export default function HouseholdProfileForm({ profile }: HouseholdProfileFormPr
               value={householdSize}
               onChange={(event) => setHouseholdSize(event.target.value)}
             />
-          </label>
+          </Label>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <button
+          <Button
             type="submit"
-            className="bg-hub-accent min-h-11 rounded-md px-4 text-sm font-semibold text-white disabled:opacity-60"
+            variant="primary"
+            className="min-h-11 rounded-md px-4 text-sm font-semibold disabled:opacity-60"
           >
             {pending ? '저장 중…' : '가구 조건 저장'}
-          </button>
+          </Button>
           <p
             role="status"
             className={state.saved ? 'text-hub-muted text-sm' : 'text-sm text-red-700'}
@@ -90,7 +94,7 @@ export default function HouseholdProfileForm({ profile }: HouseholdProfileFormPr
             {state.message}
           </p>
         </div>
-      </fieldset>
+      </FieldSet>
     </form>
   );
 }

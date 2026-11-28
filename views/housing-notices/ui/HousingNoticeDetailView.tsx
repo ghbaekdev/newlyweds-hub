@@ -5,6 +5,8 @@ import HousingNoticeSelection from '@/widgets/housing-notice-details/ui/HousingN
 import type { MyhomeNoticeDetail } from '@/entities/housing-notices/model/myhomeNoticeDetails';
 import { MyhomeKind } from '@/entities/housing-notices/model/types';
 
+import Button from '@/shared/ui/Button';
+
 type Props = { notice: MyhomeNoticeDetail };
 
 export default function HousingNoticeDetailView({ notice }: Props) {
@@ -36,18 +38,22 @@ export default function HousingNoticeDetailView({ notice }: Props) {
             {title}
           </h1>
           <div className="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold">
-            <a
-              href={source.supplierNoticeUrl}
-              className="rounded-md bg-[#214838] px-4 py-2.5 text-white hover:bg-[#173129]"
-            >
-              LH 공식 공고 보기 <span aria-hidden="true">↗</span>
-            </a>
-            <a
-              href={source.pdfUrl}
-              className="rounded-md border border-[#a7b8ac] px-4 py-2.5 hover:bg-white"
-            >
-              모집공고 PDF <span aria-hidden="true">↗</span>
-            </a>
+            <Button asChild>
+              <a
+                href={source.supplierNoticeUrl}
+                className="hover:bg-housing-button-hover rounded-md bg-[#214838] px-4 py-2.5 text-white"
+              >
+                LH 공식 공고 보기 <span aria-hidden="true">↗</span>
+              </a>
+            </Button>
+            <Button asChild>
+              <a
+                href={source.pdfUrl}
+                className="rounded-md border border-[#a7b8ac] px-4 py-2.5 hover:bg-white"
+              >
+                모집공고 PDF <span aria-hidden="true">↗</span>
+              </a>
+            </Button>
           </div>
         </div>
         {reviewNote && (

@@ -1,5 +1,15 @@
 import type { MyhomeNoticeDetail } from '@/entities/housing-notices/model/myhomeNoticeDetails';
 
+import Collapsible, { CollapsibleContent, CollapsibleTrigger } from '@/shared/ui/Collapsible';
+import Table, {
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/shared/ui/Table';
+
 type Props = { notice: MyhomeNoticeDetail };
 type ScoreItems = NonNullable<MyhomeNoticeDetail['selection']['scoreItems']>;
 
@@ -43,38 +53,45 @@ export default function HousingNoticeSelection({ notice }: Props) {
           role="region"
           aria-label="가구원 수별 소득 상한 표"
         >
-          <table className="w-full min-w-[43rem] text-left text-sm">
-            <caption className="sr-only">가구원 수별 월평균 소득 상한, 원 단위</caption>
-            <thead className="bg-[#e6ece4]">
-              <tr>
-                <th scope="col" className="px-3 py-3">
+          <Table className="w-full min-w-[43rem] text-left text-sm">
+            <TableCaption className="sr-only">가구원 수별 월평균 소득 상한, 원 단위</TableCaption>
+            <TableHeader className="bg-[#e6ece4]">
+              <TableRow>
+                <TableHead scope="col" className="px-3 py-3">
                   공급 구분·기준
-                </th>
+                </TableHead>
                 {sizes.map((size) => (
-                  <th key={size} scope="col" className="px-3 py-3 text-right whitespace-nowrap">
+                  <TableHead
+                    key={size}
+                    scope="col"
+                    className="px-3 py-3 text-right whitespace-nowrap"
+                  >
                     {size.startsWith('<=') ? `${size.slice(2)}인 이하` : `${size}인`}
-                  </th>
+                  </TableHead>
                 ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#d8e0d6]">
+              </TableRow>
+            </TableHeader>
+            <TableBody className="divide-y divide-[#d8e0d6]">
               {income.rows.map((row) => (
-                <tr key={`${row.group}-${row.basePercent}`}>
-                  <th scope="row" className="px-3 py-2 font-medium">
+                <TableRow key={`${row.group}-${row.basePercent}`}>
+                  <TableHead scope="row" className="px-3 py-2 font-medium">
                     {row.group} {row.basePercent}%
                     {row.bothSpousesHaveIncome && (
                       <span className="block text-xs text-[#425d51]">부부 모두 소득 있음</span>
                     )}
-                  </th>
+                  </TableHead>
                   {sizes.map((size) => (
-                    <td key={size} className="px-3 py-2 text-right whitespace-nowrap tabular-nums">
+                    <TableCell
+                      key={size}
+                      className="px-3 py-2 text-right whitespace-nowrap tabular-nums"
+                    >
                       {row.maximumMonthlyIncomeKrwByHouseholdSize[size]?.toLocaleString('ko-KR')}원
-                    </td>
+                    </TableCell>
                   ))}
-                </tr>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
         {income.householdSizeAdjustmentPp && (
           <p className="mt-2 text-xs leading-5 text-[#425d51]">
@@ -118,17 +135,21 @@ export default function HousingNoticeSelection({ notice }: Props) {
           </a>
         )}
         {scoreItems && (
-          <details className="mt-4 rounded-lg border border-[#cdd8ce] bg-white px-4 py-3">
-            <summary className="cursor-pointer text-sm font-semibold">동순위 배점 보기</summary>
-            {ordering && <p className="mt-3 text-sm text-[#425d51]">{ordering.join(' → ')}</p>}
-            <ScoreItems items={scoreItems} />
-            <a
-              href={`${source.pdfUrl}#page=${scoreItems[0].sourcePage}`}
-              className="text-sm text-[#37574b] underline underline-offset-4"
-            >
-              배점 근거 · 원문 {scoreItems[0].sourcePage}쪽
-            </a>
-          </details>
+          <Collapsible className="mt-4 rounded-lg border border-[#cdd8ce] bg-white px-4 py-3">
+            <CollapsibleTrigger className="cursor-pointer text-sm font-semibold before:mr-1 before:inline-block before:content-[\'▸\'] data-[state=open]:before:rotate-90">
+              동순위 배점 보기
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              {ordering && <p className="mt-3 text-sm text-[#425d51]">{ordering.join(' → ')}</p>}
+              <ScoreItems items={scoreItems} />
+              <a
+                href={`${source.pdfUrl}#page=${scoreItems[0].sourcePage}`}
+                className="text-sm text-[#37574b] underline underline-offset-4"
+              >
+                배점 근거 · 원문 {scoreItems[0].sourcePage}쪽
+              </a>
+            </CollapsibleContent>
+          </Collapsible>
         )}
         {stages && (
           <ol className="mt-3 divide-y divide-[#d8e0d6]">
@@ -148,18 +169,20 @@ export default function HousingNoticeSelection({ notice }: Props) {
                   선정 기준 · 원문 {stage.sourcePage}쪽
                 </a>
                 {stage.scoreItems.length > 0 && (
-                  <details className="mt-3 rounded-lg border border-[#cdd8ce] bg-white px-4 py-3">
-                    <summary className="cursor-pointer font-semibold">
+                  <Collapsible className="mt-3 rounded-lg border border-[#cdd8ce] bg-white px-4 py-3">
+                    <CollapsibleTrigger className="cursor-pointer font-semibold before:mr-1 before:inline-block before:content-[\'▸\'] data-[state=open]:before:rotate-90">
                       {stage.name} 배점 보기
-                    </summary>
-                    <ScoreItems items={stage.scoreItems} />
-                    <a
-                      href={`${source.pdfUrl}#page=${stage.scoreItems[0].sourcePage}`}
-                      className="text-[#37574b] underline underline-offset-4"
-                    >
-                      배점 근거 · 원문 {stage.scoreItems[0].sourcePage}쪽
-                    </a>
-                  </details>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <ScoreItems items={stage.scoreItems} />
+                      <a
+                        href={`${source.pdfUrl}#page=${stage.scoreItems[0].sourcePage}`}
+                        className="text-[#37574b] underline underline-offset-4"
+                      >
+                        배점 근거 · 원문 {stage.scoreItems[0].sourcePage}쪽
+                      </a>
+                    </CollapsibleContent>
+                  </Collapsible>
                 )}
               </li>
             ))}

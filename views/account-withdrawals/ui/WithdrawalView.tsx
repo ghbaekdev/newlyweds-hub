@@ -5,6 +5,9 @@ import {
   withdrawalPath,
 } from '@/features/account-withdrawals/lib/withdrawalPaths';
 
+import Button from '@/shared/ui/Button';
+import Card from '@/shared/ui/Card';
+
 const messages = {
   [WithdrawalIssue.CANCELLED]: '카카오 본인 확인을 취소했어요.',
   [WithdrawalIssue.VERIFICATION_FAILED]:
@@ -23,7 +26,10 @@ export default function WithdrawalView({ available, verified, issue }: Withdrawa
   return (
     <main className="hub-page">
       <div className="hub-container py-12 sm:py-20">
-        <section className="border-hub-line max-w-xl rounded-xl border bg-white p-6 sm:p-8">
+        <Card
+          as="section"
+          className="border-hub-line max-w-xl rounded-xl border bg-white p-6 sm:p-8"
+        >
           <h1 className="text-2xl font-bold tracking-tight">회원 탈퇴</h1>
           <p className="text-hub-muted mt-3 text-sm leading-6">
             탈퇴하면 서비스 계정, 표시 이름, 가구 프로필이 삭제되고 모든 기기에서 서비스 이용이
@@ -43,33 +49,34 @@ export default function WithdrawalView({ available, verified, issue }: Withdrawa
             <form method="post" action={`${withdrawalPath}/confirm`} className="mt-6 space-y-3">
               <p className="text-sm font-semibold">카카오 계정 확인을 마쳤어요.</p>
               <div className="flex flex-wrap gap-2">
-                <button
+                <Button
                   type="submit"
                   name="intent"
                   value="confirm"
                   className="min-h-11 cursor-pointer rounded-md bg-red-700 px-4 text-sm font-semibold text-white hover:bg-red-800"
                 >
                   회원 탈퇴 확정
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   name="intent"
                   value="cancel"
                   className="border-hub-line hover:bg-hub-soft min-h-11 cursor-pointer rounded-md border px-4 text-sm font-semibold"
                 >
                   취소
-                </button>
+                </Button>
               </div>
             </form>
           )}
           {available && !verified && (
             <form method="post" action={`${withdrawalPath}/verify`} className="mt-6">
-              <button
+              <Button
                 type="submit"
-                className="bg-hub-accent min-h-11 cursor-pointer rounded-md px-4 text-sm font-semibold text-white"
+                variant="primary"
+                className="min-h-11 cursor-pointer rounded-md px-4 text-sm font-semibold"
               >
                 카카오 계정 확인
-              </button>
+              </Button>
             </form>
           )}
           {!verified && (
@@ -80,7 +87,7 @@ export default function WithdrawalView({ available, verified, issue }: Withdrawa
               마이페이지로 돌아가기
             </Link>
           )}
-        </section>
+        </Card>
       </div>
     </main>
   );

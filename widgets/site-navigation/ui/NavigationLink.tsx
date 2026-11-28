@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import Button from '@/shared/ui/Button';
+
 type NavigationLinkProps = {
   href: string;
   label: string;
@@ -16,13 +18,15 @@ export default function NavigationLink({ href, label, className, prefetch }: Nav
   const active = href !== '/' && pathname.startsWith(`${href}/`);
 
   return (
-    <Link
-      href={href}
-      prefetch={prefetch}
-      aria-current={current ? 'page' : active ? 'location' : undefined}
-      className={className}
-    >
-      {label}
-    </Link>
+    <Button asChild>
+      <Link
+        href={href}
+        prefetch={prefetch}
+        aria-current={current ? 'page' : active ? 'location' : undefined}
+        className={className}
+      >
+        {label}
+      </Link>
+    </Button>
   );
 }

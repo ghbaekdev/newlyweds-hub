@@ -5,6 +5,8 @@ import type { Benefit } from '@/entities/benefits/model/types';
 import type { MyhomeNoticeSummary } from '@/entities/housing-notices/model/myhomeNoticeDetails';
 import { MyhomeKind } from '@/entities/housing-notices/model/types';
 
+import Card from '@/shared/ui/Card';
+
 const services = [
   { href: '/housing', label: '주택 공고', description: '공공임대·공공분양 모집 정보' },
   { href: '/benefits', label: '지원 혜택', description: '지역별 주거비·결혼·건강 지원' },
@@ -31,7 +33,8 @@ export default function SupportHubView({ notices, benefits }: Props) {
           <p className="text-hub-muted mt-2">주택 공고와 우리 지역의 지원 혜택을 확인하세요.</p>
         </header>
         <div className="grid items-start gap-4 md:grid-cols-[minmax(16rem,0.44fr)_minmax(0,1fr)] md:gap-6">
-          <section
+          <Card
+            as="section"
             className="bg-hub-navy rounded-xl px-4 py-3 text-white sm:p-6"
             aria-labelledby="hub-services"
           >
@@ -58,9 +61,10 @@ export default function SupportHubView({ notices, benefits }: Props) {
                 </li>
               ))}
             </ul>
-          </section>
+          </Card>
           <div className="grid gap-4">
-            <section
+            <Card
+              as="section"
               className="border-hub-line rounded-xl border bg-white px-4 py-3 sm:px-5"
               aria-labelledby="hub-housing"
             >
@@ -121,8 +125,9 @@ export default function SupportHubView({ notices, benefits }: Props) {
                     : '주택 공고 요약을 불러오지 못했습니다.'}
                 </p>
               )}
-            </section>
-            <section
+            </Card>
+            <Card
+              as="section"
               className="border-hub-line rounded-xl border bg-white px-4 py-3 sm:px-5"
               aria-labelledby="hub-benefits"
             >
@@ -177,7 +182,7 @@ export default function SupportHubView({ notices, benefits }: Props) {
                     : '지원 혜택 요약을 불러오지 못했습니다.'}
                 </p>
               )}
-            </section>
+            </Card>
           </div>
         </div>
       </div>

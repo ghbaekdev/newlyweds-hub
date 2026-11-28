@@ -14,7 +14,15 @@ import {
 } from '@/entities/benefits/model/types';
 import type { Benefit, EligibilityScope as Scope } from '@/entities/benefits/model/types';
 
+import Badge from '@/shared/ui/Badge';
+import Button from '@/shared/ui/Button';
+import Checkbox from '@/shared/ui/Checkbox';
+import Collapsible, { CollapsibleContent, CollapsibleTrigger } from '@/shared/ui/Collapsible';
+import FieldSet, { FieldLegend } from '@/shared/ui/FieldSet';
 import FilterPanel from '@/shared/ui/FilterPanel';
+import Input from '@/shared/ui/Input';
+import Label from '@/shared/ui/Label';
+import NativeSelect from '@/shared/ui/NativeSelect';
 
 const Status = { ANY: 'any', PROSPECTIVE: 'prospective', MARRIED: 'married' } as const;
 type Status = (typeof Status)[keyof typeof Status];
@@ -24,7 +32,6 @@ type Props = {
 };
 type Category = Benefit['category'];
 type BenefitRowProps = { benefit: Benefit };
-type ChipProps = { children: React.ReactNode; tone?: 'blue' | 'amber' };
 type RowProps = { k: string; v?: string | null };
 
 const won = (n: number) =>
@@ -118,37 +125,30 @@ export default function BenefitsBrowser({ benefits, regions }: Props) {
     <div className="hub-catalog">
       <FilterPanel hasConditions={hasConditions}>
         <div className="grid gap-3 text-sm">
-          <label className="text-hub-muted grid gap-1 font-semibold">
+          <Label className="text-hub-muted grid gap-1 font-semibold">
             혜택명 검색
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              className="hub-field"
-            />
-          </label>
-          <fieldset className="grid gap-1">
-            <legend className="text-hub-muted mb-1 font-semibold">거주 지역</legend>
-            <select
+            <Input type="search" value={query} onChange={(event) => setQuery(event.target.value)} />
+          </Label>
+          <FieldSet className="grid gap-1">
+            <FieldLegend className="text-hub-muted mb-1 font-semibold">거주 지역</FieldLegend>
+            <NativeSelect
               aria-label="시도"
               value={sido}
               onChange={(event) => {
                 setSido(event.target.value);
                 setSigungu('');
               }}
-              className="hub-field"
             >
               <option value="">전체 시도</option>
               {sidos.map((region) => (
                 <option key={region}>{region}</option>
               ))}
-            </select>
-            <select
+            </NativeSelect>
+            <NativeSelect
               aria-label="시군구"
               value={sigungu}
               onChange={(event) => setSigungu(event.target.value)}
               disabled={!sido}
-              className="hub-field"
             >
               <option value="">시군구 전체</option>
               {sigungus.map((region) => {
@@ -160,107 +160,91 @@ export default function BenefitsBrowser({ benefits, regions }: Props) {
                   </option>
                 );
               })}
-            </select>
-          </fieldset>
-          <label className="text-hub-muted grid gap-1 font-semibold">
+            </NativeSelect>
+          </FieldSet>
+          <Label className="text-hub-muted grid gap-1 font-semibold">
             혼인 상태
-            <select
+            <NativeSelect
               value={status}
               onChange={(event) => setStatus(event.target.value as Status)}
-              className="hub-field"
             >
               <option value={Status.ANY}>상관없음</option>
               <option value={Status.PROSPECTIVE}>예비부부</option>
               <option value={Status.MARRIED}>혼인신고 함</option>
-            </select>
-          </label>
+            </NativeSelect>
+          </Label>
           {status === Status.MARRIED && (
-            <label className="text-hub-muted grid gap-1 font-semibold">
+            <Label className="text-hub-muted grid gap-1 font-semibold">
               혼인 경과 년수
-              <input
+              <Input
                 type="number"
                 min={0}
                 step={0.5}
                 value={years}
                 onChange={(event) => setYears(event.target.value)}
-                className="hub-field"
               />
-            </label>
+            </Label>
           )}
-          <label className="text-hub-muted grid gap-1 font-semibold">
+          <Label className="text-hub-muted grid gap-1 font-semibold">
             나이 (부부 중 1명)
-            <input
+            <Input
               type="number"
               min={18}
               value={age}
               onChange={(event) => setAge(event.target.value)}
               placeholder="예: 32"
-              className="hub-field"
             />
-          </label>
-          <fieldset className="grid">
-            <legend className="text-hub-muted font-semibold">선택 조건</legend>
-            <label className="flex min-h-9 items-center gap-2">
-              <input
-                type="checkbox"
+          </Label>
+          <FieldSet className="grid">
+            <FieldLegend className="text-hub-muted font-semibold">선택 조건</FieldLegend>
+            <Label className="flex min-h-9 items-center gap-2">
+              <Checkbox
                 checked={ownsHome}
-                onChange={(event) => setOwnsHome(event.target.checked)}
-                className="accent-hub-accent"
+                onCheckedChange={(checked) => setOwnsHome(checked === true)}
               />
               주택 보유
-            </label>
-            <label className="flex min-h-9 items-center gap-2">
-              <input
-                type="checkbox"
+            </Label>
+            <Label className="flex min-h-9 items-center gap-2">
+              <Checkbox
                 checked={includeBroad}
-                onChange={(event) => setIncludeBroad(event.target.checked)}
-                className="accent-hub-accent"
+                onCheckedChange={(checked) => setIncludeBroad(checked === true)}
               />
               신혼 포함 일반 사업도
-            </label>
-            <label className="flex min-h-9 items-center gap-2">
-              <input
-                type="checkbox"
+            </Label>
+            <Label className="flex min-h-9 items-center gap-2">
+              <Checkbox
                 checked={hideStale}
-                onChange={(event) => setHideStale(event.target.checked)}
-                className="accent-hub-accent"
+                onCheckedChange={(checked) => setHideStale(checked === true)}
               />
               마감·오래된 정보 숨김
-            </label>
-          </fieldset>
+            </Label>
+          </FieldSet>
           {categoryOptions.length > 0 && (
-            <details
-              open={categories.size > 0 ? true : undefined}
-              className="border-hub-line border-t pt-1"
-            >
-              <summary className="text-hub-muted min-h-11 cursor-pointer py-3 font-semibold">
+            <Collapsible className="border-hub-line border-t pt-1">
+              <CollapsibleTrigger className="text-hub-muted min-h-11 cursor-pointer py-3 font-semibold before:mr-1 before:inline-block before:content-[\'▸\'] data-[state=open]:before:rotate-90">
                 지원 분야{categories.size > 0 && ` · ${categories.size}개 선택`}
-              </summary>
-              {categoryOptions.map((category) => (
-                <label key={category} className="flex min-h-9 items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={categories.has(category)}
-                    onChange={(event) => {
-                      const next = new Set(categories);
-                      if (event.target.checked) next.add(category);
-                      else next.delete(category);
-                      setCategories(next);
-                    }}
-                    className="accent-hub-accent"
-                  />
-                  {CATEGORY[category] ?? category} ({counts.get(category) ?? 0})
-                </label>
-              ))}
-            </details>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                {categoryOptions.map((category) => (
+                  <Label key={category} className="flex min-h-9 items-center gap-2">
+                    <Checkbox
+                      checked={categories.has(category)}
+                      onCheckedChange={(checked) => {
+                        const next = new Set(categories);
+                        if (checked === true) next.add(category);
+                        else next.delete(category);
+                        setCategories(next);
+                      }}
+                    />
+                    {CATEGORY[category] ?? category} ({counts.get(category) ?? 0})
+                  </Label>
+                ))}
+              </CollapsibleContent>
+            </Collapsible>
           )}
-          <button
-            type="button"
-            onClick={reset}
-            className="text-hub-accent min-h-11 cursor-pointer text-left font-semibold hover:underline"
-          >
+          <Button type="button" onClick={reset} variant="reset">
             조건 초기화
-          </button>
+          </Button>
         </div>
       </FilterPanel>
       <section aria-labelledby="benefits-results">
@@ -302,16 +286,6 @@ export default function BenefitsBrowser({ benefits, regions }: Props) {
   );
 }
 
-function Chip({ children, tone }: ChipProps) {
-  const color =
-    tone === 'amber'
-      ? 'bg-amber-50 text-amber-800'
-      : tone === 'blue'
-        ? 'bg-hub-soft text-hub-accent'
-        : 'bg-hub-bg text-hub-muted';
-  return <span className={`rounded px-1.5 py-0.5 text-xs ${color}`}>{children}</span>;
-}
-
 function BenefitRow({ benefit: b }: BenefitRowProps) {
   const region =
     b.level === BenefitLevel.NATIONAL ? '전국' : [b.sido, b.sigungu].filter(Boolean).join(' ');
@@ -331,8 +305,8 @@ function BenefitRow({ benefit: b }: BenefitRowProps) {
 
   return (
     <li id={`benefit-${b.service_id}`} className="target:bg-hub-soft scroll-mt-4">
-      <details className="group">
-        <summary className="hover:bg-hub-soft grid cursor-pointer list-none grid-cols-[minmax(0,1fr)_minmax(0,1fr)_1rem] items-center gap-x-3 gap-y-1 px-4 py-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.54fr)_minmax(0,0.60fr)_1rem] [&::-webkit-details-marker]:hidden">
+      <Collapsible className="group">
+        <CollapsibleTrigger className="hover:bg-hub-row-hover focus-visible:bg-hub-row-hover grid w-full cursor-pointer grid-cols-[minmax(0,1fr)_minmax(0,1fr)_1rem] items-center gap-x-3 gap-y-1 px-4 py-3 text-left lg:grid-cols-[minmax(0,1fr)_minmax(0,0.54fr)_minmax(0,0.60fr)_1rem]">
           <span className="col-span-2 grid gap-0.5 lg:col-span-1">
             <span className="text-hub-accent text-sm font-semibold">
               {CATEGORY[b.category] ?? b.category}
@@ -351,85 +325,87 @@ function BenefitRow({ benefit: b }: BenefitRowProps) {
           </span>
           <span
             aria-hidden="true"
-            className="text-hub-accent col-start-3 row-start-1 group-open:hidden lg:col-start-4"
+            className="text-hub-accent col-start-3 row-start-1 group-data-[state=open]:hidden lg:col-start-4"
           >
             +
           </span>
           <span
             aria-hidden="true"
-            className="text-hub-accent col-start-3 row-start-1 hidden group-open:inline lg:col-start-4"
+            className="text-hub-accent col-start-3 row-start-1 hidden group-data-[state=open]:inline lg:col-start-4"
           >
             −
           </span>
-        </summary>
-        <div className="grid gap-3 px-4 pt-1 pb-4">
-          {b.summary && <p className="text-hub-muted text-sm">{b.summary}</p>}
-          <div className="flex flex-wrap gap-1">
-            {b.marriage_max_years !== null && (
-              <Chip tone="blue">혼인 {b.marriage_max_years}년 이내</Chip>
-            )}
-            {b.prospective_allowed && <Chip tone="blue">예비부부 가능</Chip>}
-            {(b.age_min !== null || b.age_max !== null) && (
-              <Chip>
-                {b.age_min ?? ''}~{b.age_max ?? ''}세{scope(b.eligibility.age?.scope ?? null)}
-              </Chip>
-            )}
-            {income && <Chip>{income}</Chip>}
-            {b.homeless_required && <Chip>무주택</Chip>}
-            {b.residency_required && (
-              <Chip>
-                거주{b.residency_min_months ? ` ${b.residency_min_months}개월+` : ''}
-                {scope(b.residency_scope)}
-              </Chip>
-            )}
-            {b.tags.map((t) => (
-              <Chip key={t}>{TAG[t] ?? t}</Chip>
-            ))}
-            {b.stale_suspect && <Chip tone="amber">정보 확인 필요</Chip>}
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <div className="grid gap-3 px-4 pt-1 pb-4">
+            {b.summary && <p className="text-hub-muted text-sm">{b.summary}</p>}
+            <div className="flex flex-wrap gap-1">
+              {b.marriage_max_years !== null && (
+                <Badge tone="blue">혼인 {b.marriage_max_years}년 이내</Badge>
+              )}
+              {b.prospective_allowed && <Badge tone="blue">예비부부 가능</Badge>}
+              {(b.age_min !== null || b.age_max !== null) && (
+                <Badge>
+                  {b.age_min ?? ''}~{b.age_max ?? ''}세{scope(b.eligibility.age?.scope ?? null)}
+                </Badge>
+              )}
+              {income && <Badge>{income}</Badge>}
+              {b.homeless_required && <Badge>무주택</Badge>}
+              {b.residency_required && (
+                <Badge>
+                  거주{b.residency_min_months ? ` ${b.residency_min_months}개월+` : ''}
+                  {scope(b.residency_scope)}
+                </Badge>
+              )}
+              {b.tags.map((t) => (
+                <Badge key={t}>{TAG[t] ?? t}</Badge>
+              ))}
+              {b.stale_suspect && <Badge tone="amber">정보 확인 필요</Badge>}
+            </div>
+            <dl className="text-hub-muted space-y-1.5 text-sm">
+              <Row k="기관" v={b.org_name} />
+              <Row k="금액" v={b.amount_text} />
+              <Row k="거주" v={b.eligibility.residency?.text} />
+              <Row
+                k="혼인"
+                v={[b.eligibility.marriage?.basis, b.eligibility.marriage?.prospective_text]
+                  .filter(Boolean)
+                  .join(' / ')}
+              />
+              <Row k="소득" v={b.eligibility.income?.text} />
+              <Row k="주택" v={b.eligibility.housing_limits} />
+              <Row k="기타" v={b.eligibility.other?.join(' · ')} />
+              <Row
+                k="신청"
+                v={[b.application.text, b.application.method].filter(Boolean).join(' / ')}
+              />
+              <Row k="검수 메모" v={b.review.notes} />
+            </dl>
+            <div className="flex flex-wrap gap-4 text-sm">
+              {b.detail_url && (
+                <a
+                  href={b.detail_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-hub-accent flex min-h-11 items-center font-semibold underline underline-offset-4"
+                >
+                  보조금24 원문
+                </a>
+              )}
+              {b.application.online_url && (
+                <a
+                  href={b.application.online_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-hub-accent flex min-h-11 items-center font-semibold underline underline-offset-4"
+                >
+                  온라인 신청
+                </a>
+              )}
+            </div>
           </div>
-          <dl className="text-hub-muted space-y-1.5 text-sm">
-            <Row k="기관" v={b.org_name} />
-            <Row k="금액" v={b.amount_text} />
-            <Row k="거주" v={b.eligibility.residency?.text} />
-            <Row
-              k="혼인"
-              v={[b.eligibility.marriage?.basis, b.eligibility.marriage?.prospective_text]
-                .filter(Boolean)
-                .join(' / ')}
-            />
-            <Row k="소득" v={b.eligibility.income?.text} />
-            <Row k="주택" v={b.eligibility.housing_limits} />
-            <Row k="기타" v={b.eligibility.other?.join(' · ')} />
-            <Row
-              k="신청"
-              v={[b.application.text, b.application.method].filter(Boolean).join(' / ')}
-            />
-            <Row k="검수 메모" v={b.review.notes} />
-          </dl>
-          <div className="flex flex-wrap gap-4 text-sm">
-            {b.detail_url && (
-              <a
-                href={b.detail_url}
-                target="_blank"
-                rel="noreferrer"
-                className="text-hub-accent flex min-h-11 items-center font-semibold underline underline-offset-4"
-              >
-                보조금24 원문
-              </a>
-            )}
-            {b.application.online_url && (
-              <a
-                href={b.application.online_url}
-                target="_blank"
-                rel="noreferrer"
-                className="text-hub-accent flex min-h-11 items-center font-semibold underline underline-offset-4"
-              >
-                온라인 신청
-              </a>
-            )}
-          </div>
-        </div>
-      </details>
+        </CollapsibleContent>
+      </Collapsible>
     </li>
   );
 }

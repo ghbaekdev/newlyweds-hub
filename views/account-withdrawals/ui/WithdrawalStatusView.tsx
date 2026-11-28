@@ -2,6 +2,9 @@ import Link from 'next/link';
 
 import WithdrawalStatusRefresh from '@/features/account-withdrawals/ui/WithdrawalStatusRefresh';
 
+import Button from '@/shared/ui/Button';
+import Card from '@/shared/ui/Card';
+
 const messages = {
   pending: {
     title: '탈퇴 처리 중',
@@ -25,19 +28,24 @@ export default function WithdrawalStatusView({ status }: WithdrawalStatusViewPro
   return (
     <main className="hub-page">
       <div className="hub-container py-12 sm:py-20">
-        <section className="border-hub-line max-w-xl rounded-xl border bg-white p-6 sm:p-8">
+        <Card
+          as="section"
+          className="border-hub-line max-w-xl rounded-xl border bg-white p-6 sm:p-8"
+        >
           <div role="status">
             <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
             <p className="text-hub-muted mt-3 text-sm leading-6">{text}</p>
           </div>
           {status === 'pending' && <WithdrawalStatusRefresh />}
-          <Link
-            href="/"
-            className="text-hub-accent mt-3 inline-flex min-h-11 items-center text-sm font-semibold hover:underline"
-          >
-            메인으로 이동
-          </Link>
-        </section>
+          <Button asChild>
+            <Link
+              href="/"
+              className="text-hub-accent mt-3 inline-flex min-h-11 items-center text-sm font-semibold hover:underline"
+            >
+              메인으로 이동
+            </Link>
+          </Button>
+        </Card>
       </div>
     </main>
   );

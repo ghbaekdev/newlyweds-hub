@@ -1,4 +1,4 @@
-# newlyweds-test - Development Guide
+# newlyweds-hub - Development Guide
 
 Next.js 16 기반 신혼부부 혜택·주택 공고 탐색 서비스 (FSD 아키텍처, 서버 우선)
 
@@ -21,7 +21,7 @@ Next.js 16 기반 신혼부부 혜택·주택 공고 탐색 서비스 (FSD 아�
 
 ## 지금 쓰지 않는 것
 
-React Query, axios `privateInstance`, `useLoading`, nuqs, Zustand, shadcn/ui는 아직 들이지 않았다. 클라이언트 쪽 서버 상태나 URL 필터 동기화가 실제로 필요해질 때 agent-builder-web 방식 그대로 도입하고 `docs/state-management.md`를 갱신한다.
+React Query, axios `privateInstance`, `useLoading`, nuqs, Zustand는 아직 들이지 않았다. 클라이언트 쪽 서버 상태나 URL 필터 동기화가 실제로 필요해질 때 agent-builder-web 방식 그대로 도입하고 `docs/state-management.md`를 갱신한다.
 
 ## Docs
 

@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
+import Button from '@/shared/ui/Button';
+
 import { loginPath } from '../lib/loginPath';
 import { getReturnPath } from '../lib/returnPath';
 
@@ -12,13 +14,15 @@ export default function LoginLink({ className }: LoginLinkProps) {
   const pathname = usePathname();
   const query = useSearchParams().toString();
   return (
-    <Link
-      href={loginPath(getReturnPath(query ? `${pathname}?${query}` : pathname))}
-      className={className}
-      aria-current={pathname === '/login' ? 'page' : undefined}
-      prefetch={false}
-    >
-      로그인
-    </Link>
+    <Button asChild>
+      <Link
+        href={loginPath(getReturnPath(query ? `${pathname}?${query}` : pathname))}
+        className={className}
+        aria-current={pathname === '/login' ? 'page' : undefined}
+        prefetch={false}
+      >
+        로그인
+      </Link>
+    </Button>
   );
 }

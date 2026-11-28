@@ -11,6 +11,14 @@
 }
 
 @theme inline {
+  --color-primary: var(--color-hub-accent);
+  --color-primary-hover: #28669c;
+  --color-hub-button-hover-dark: #273b50;
+  --color-housing-button-hover: #2d5b47;
+  --color-ring: var(--color-hub-accent);
+  --color-input: var(--color-hub-line);
+  --color-border: var(--color-hub-line);
+  --color-muted-foreground: var(--color-hub-muted);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -41,6 +49,7 @@ body {
   --color-hub-muted: #4c6074;
   --color-hub-accent: #184e83;
   --color-hub-soft: #e5eef8;
+  --color-hub-row-hover: #f0f6fc;
   --color-hub-line: #d7e0e8;
   --color-hub-navy: #193854;
 }
@@ -61,12 +70,12 @@ body {
 }
 
 @utility hub-field {
-  @apply border-hub-line text-hub-ink disabled:bg-hub-bg disabled:text-hub-muted min-h-11 w-full min-w-0 rounded-md border bg-white px-2.5 text-base;
+  @apply border-input text-hub-ink disabled:bg-hub-bg disabled:text-hub-muted min-h-11 w-full min-w-0 rounded-md border bg-white px-2.5 text-base;
 }
 
 @layer components {
   .hub-field::placeholder {
-    color: var(--color-hub-muted);
+    color: var(--color-muted-foreground);
     opacity: 1;
   }
 }

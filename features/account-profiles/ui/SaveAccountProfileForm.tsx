@@ -2,6 +2,10 @@
 
 import { useActionState, useId, useState } from 'react';
 
+import Button from '@/shared/ui/Button';
+import Input from '@/shared/ui/Input';
+import Label from '@/shared/ui/Label';
+
 import { saveAccountProfile } from '../model/saveAccountProfile';
 import {
   type AccountProfileSaveState,
@@ -37,13 +41,13 @@ export default function SaveAccountProfileForm({ displayName }: SaveAccountProfi
 
   return (
     <form action={formAction} className="mt-5">
-      <label htmlFor={nameId} className="text-sm font-semibold">
+      <Label htmlFor={nameId} className="text-sm font-semibold">
         표시 이름 <span className="text-hub-muted font-normal">(선택)</span>
-      </label>
-      <input
+      </Label>
+      <Input
         id={nameId}
         name="displayName"
-        className="hub-field mt-2"
+        className="mt-2"
         value={draft}
         onChange={(event) => setDraft(event.target.value)}
         readOnly={pending}
@@ -52,13 +56,14 @@ export default function SaveAccountProfileForm({ displayName }: SaveAccountProfi
       />
       <p className="text-hub-muted mt-2 text-sm">이름을 비운 채 저장하면 표시 이름이 지워져요.</p>
       <div className="mt-4 flex flex-wrap items-center gap-3">
-        <button
+        <Button
           type="submit"
-          className="bg-hub-accent hover:bg-hub-navy min-h-11 cursor-pointer rounded-md px-4 text-sm font-semibold text-white disabled:cursor-wait disabled:opacity-60"
+          variant="primary"
+          className="min-h-11 cursor-pointer rounded-md px-4 text-sm font-semibold disabled:cursor-wait disabled:opacity-60"
           disabled={pending}
         >
           {pending ? '저장 중…' : '표시 이름 저장'}
-        </button>
+        </Button>
         <p id={statusId} role="status" className="text-hub-muted text-sm">
           {pending ? '' : feedback[state]}
         </p>

@@ -4,6 +4,11 @@ import { useState } from 'react';
 
 import type { HouseholdProfile } from '@/entities/household-profiles/model/types';
 
+import FieldSet, { FieldLegend } from '@/shared/ui/FieldSet';
+import Input from '@/shared/ui/Input';
+import Label from '@/shared/ui/Label';
+import NativeSelect from '@/shared/ui/NativeSelect';
+
 import { HomeOwnershipChoice } from '../lib/parseHouseholdProfile';
 import RegionFields from './RegionFields';
 
@@ -25,12 +30,11 @@ export default function HouseholdPersonFields({
   const [since, setSince] = useState(profile?.[`${person}_residence_since`] ?? '');
 
   return (
-    <fieldset className="border-hub-line grid gap-4 rounded-md border p-3 sm:p-4">
-      <legend className="px-1 text-sm font-semibold">{label}</legend>
-      <label className="grid gap-1.5 text-sm font-medium">
+    <FieldSet className="border-hub-line grid gap-4 rounded-md border p-3 sm:p-4">
+      <FieldLegend className="px-1 text-sm font-semibold">{label}</FieldLegend>
+      <Label className="grid gap-1.5 text-sm font-medium">
         월평균 소득 (원)
-        <input
-          className="hub-field"
+        <Input
           name={`${person}_monthly_income_krw`}
           type="text"
           inputMode="numeric"
@@ -38,11 +42,10 @@ export default function HouseholdPersonFields({
           value={income}
           onChange={(event) => setIncome(event.target.value)}
         />
-      </label>
-      <label className="grid gap-1.5 text-sm font-medium">
+      </Label>
+      <Label className="grid gap-1.5 text-sm font-medium">
         주택 소유 여부
-        <select
-          className="hub-field"
+        <NativeSelect
           name={`${person}_home_ownership`}
           value={ownership}
           onChange={(event) => setOwnership(event.target.value)}
@@ -51,10 +54,10 @@ export default function HouseholdPersonFields({
           <option value={HomeOwnershipChoice.OWNED}>소유</option>
           <option value={HomeOwnershipChoice.NOT_OWNED}>미소유</option>
           <option value={HomeOwnershipChoice.UNKNOWN}>모름</option>
-        </select>
-      </label>
-      <fieldset>
-        <legend className="mb-1.5 text-sm font-semibold">현재 거주지</legend>
+        </NativeSelect>
+      </Label>
+      <FieldSet>
+        <FieldLegend className="mb-1.5 text-sm font-semibold">현재 거주지</FieldLegend>
         <RegionFields
           province={province}
           district={district}
@@ -67,17 +70,16 @@ export default function HouseholdPersonFields({
           districtName={`${person}_residence_district`}
           districtPlaceholder="선택 안 함"
         />
-      </fieldset>
-      <label className="grid gap-1.5 text-sm font-medium">
+      </FieldSet>
+      <Label className="grid gap-1.5 text-sm font-medium">
         연속 거주 시작일
-        <input
-          className="hub-field"
+        <Input
           name={`${person}_residence_since`}
           type="date"
           value={since}
           onChange={(event) => setSince(event.target.value)}
         />
-      </label>
-    </fieldset>
+      </Label>
+    </FieldSet>
   );
 }

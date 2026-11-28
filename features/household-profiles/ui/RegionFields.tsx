@@ -2,6 +2,9 @@
 
 import regions from '@/data/regions.json';
 
+import Label from '@/shared/ui/Label';
+import NativeSelect from '@/shared/ui/NativeSelect';
+
 const regionMap: Record<string, readonly string[]> = regions;
 const provinces = Object.keys(regionMap).sort((a, b) => a.localeCompare(b, 'ko'));
 
@@ -32,10 +35,9 @@ export default function RegionFields({
 
   return (
     <div className="grid gap-3 sm:grid-cols-2">
-      <label className="grid gap-1.5 text-sm font-medium">
+      <Label className="grid gap-1.5 text-sm font-medium">
         시·도
-        <select
-          className="hub-field"
+        <NativeSelect
           name={provinceName}
           value={province}
           onChange={(event) => onProvinceChange(event.target.value)}
@@ -44,12 +46,11 @@ export default function RegionFields({
           {provinceOptions.map((name) => (
             <option key={name}>{name}</option>
           ))}
-        </select>
-      </label>
-      <label className="grid gap-1.5 text-sm font-medium">
+        </NativeSelect>
+      </Label>
+      <Label className="grid gap-1.5 text-sm font-medium">
         시·군·구
-        <select
-          className="hub-field"
+        <NativeSelect
           name={districtName}
           disabled={!province || districtOptions.length === 0}
           value={district}
@@ -59,8 +60,8 @@ export default function RegionFields({
           {districtOptions.map((name) => (
             <option key={name}>{name}</option>
           ))}
-        </select>
-      </label>
+        </NativeSelect>
+      </Label>
     </div>
   );
 }

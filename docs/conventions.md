@@ -122,3 +122,9 @@ export const MaritalStatusOptions = Object.entries(MaritalStatusLabel).map(([val
 
 - Prettier: 2칸 들여쓰기, **세미콜론 있음**, 작은따옴표, printWidth 100, Tailwind 클래스 정렬, import 정렬
 - TypeScript strict, `@/` 경로 별칭
+
+### shadcn/ui
+
+- 도메인 독립 컴포넌트는 `shared/ui`, 클래스 조합 함수는 `shared/lib/cn.ts`에 둔다.
+- 화면별 UI 조합과 상태는 해당 FSD 슬라이스에 둔다. Shared는 상위 레이어를 참조하지 않는다.
+- shadcn 시맨틱 색상은 `app/globals.css`에서 기존 `hub-*` 토큰을 참조한다. 새 컴포넌트는 기존 화면의 크기, 색상, 간격과 HTML 의미를 기준으로 조정한다.

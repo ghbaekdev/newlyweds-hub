@@ -3,6 +3,8 @@ import HouseholdProfileForm from '@/features/household-profiles/ui/HouseholdProf
 
 import type { HouseholdProfile } from '@/entities/household-profiles/model/types';
 
+import Button from '@/shared/ui/Button';
+
 type MyPageViewProps = {
   displayName: string | null | undefined;
   household: HouseholdProfile | null | undefined;
@@ -44,12 +46,12 @@ export default function MyPageView({ displayName, household }: MyPageViewProps) 
         <section className="border-hub-line mt-4 rounded-xl border bg-white p-6">
           <h2 className="text-lg font-semibold">계정 관리</h2>
           <form method="post" action="/auth/sign-out" className="mt-4">
-            <button
+            <Button
               type="submit"
               className="border-hub-line hover:bg-hub-soft min-h-11 cursor-pointer rounded-md border px-4 text-sm font-semibold"
             >
               로그아웃
-            </button>
+            </Button>
           </form>
         </section>
       </div>

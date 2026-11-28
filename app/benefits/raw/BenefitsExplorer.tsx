@@ -2,6 +2,10 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
+import Button from '@/shared/ui/Button';
+import Input from '@/shared/ui/Input';
+import NativeSelect from '@/shared/ui/NativeSelect';
+
 type Hit = { field: string; keyword: string; snippet: string };
 type Item = {
   id: string;
@@ -87,13 +91,13 @@ export default function BenefitsExplorer() {
             서비스명·목적·지원대상·선정기준·지원내용을 키워드로 찾습니다.
           </p>
         </div>
-        <button
+        <Button
           onClick={reload}
           disabled={loading}
-          className="rounded-md border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-900"
+          className="enabled:hover:bg-hub-row-hover dark:enabled:hover:bg-hub-button-hover-dark rounded-md border border-zinc-300 px-3 py-1.5 text-sm disabled:opacity-50 dark:border-zinc-700"
         >
           {loading ? '불러오는 중…' : 'API에서 새로 받기'}
-        </button>
+        </Button>
       </header>
 
       {error && (
@@ -127,7 +131,7 @@ export default function BenefitsExplorer() {
             {data.stats.byKeyword.map(([k, n]) => {
               const on = activeKeywords.has(k);
               return (
-                <button
+                <Button
                   key={k}
                   onClick={() => {
                     const next = new Set(activeKeywords);
@@ -142,10 +146,11 @@ export default function BenefitsExplorer() {
                   }`}
                 >
                   {k} <span className="opacity-75">{n}</span>
-                </button>
+                </Button>
               );
             })}
-            <select
+            <NativeSelect
+              appearance="custom"
               value={orgType}
               onChange={(e) => setOrgType(e.target.value)}
               className="rounded-md border border-zinc-300 bg-transparent px-2 py-1 text-sm dark:border-zinc-700"
@@ -156,8 +161,9 @@ export default function BenefitsExplorer() {
                   {k}
                 </option>
               ))}
-            </select>
-            <input
+            </NativeSelect>
+            <Input
+              appearance="custom"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="서비스명·기관·대상 검색 (예: 서울, 전세)"
@@ -172,7 +178,7 @@ export default function BenefitsExplorer() {
           <ul className="divide-y divide-zinc-200 rounded-md border border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800">
             {filtered.slice(0, 300).map((i) => (
               <li key={i.id} className="p-4">
-                <button
+                <Button
                   className="w-full text-left"
                   onClick={() => setOpen(open === i.id ? null : i.id)}
                 >
@@ -200,7 +206,7 @@ export default function BenefitsExplorer() {
                       </li>
                     ))}
                   </ul>
-                </button>
+                </Button>
                 {open === i.id && <ServiceDetail id={i.id} url={i.url} />}
               </li>
             ))}

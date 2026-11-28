@@ -4,6 +4,10 @@ import { myhomePdfLabels, MyhomePdfStatus } from '@/entities/housing-notices/mod
 import type { MyhomeCatalogItem } from '@/entities/housing-notices/model/myhomeCatalog';
 import { MyhomeKind } from '@/entities/housing-notices/model/types';
 
+import Button from '@/shared/ui/Button';
+import Collapsible, { CollapsibleContent, CollapsibleTrigger } from '@/shared/ui/Collapsible';
+import Table, { TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/Table';
+
 type Props = { notice: MyhomeCatalogItem };
 
 export default function HousingNoticeCatalogView({ notice }: Props) {
@@ -30,20 +34,24 @@ export default function HousingNoticeCatalogView({ notice }: Props) {
           <p className="mt-3 text-sm text-[#425d51]">{notice.regions.join(', ')}</p>
           <div className="mt-6 flex flex-wrap gap-3 text-sm font-semibold">
             {official && (
-              <a
-                href={official}
-                className="rounded-md bg-[#214838] px-4 py-2.5 text-white hover:bg-[#173129]"
-              >
-                공식 공고 보기 <span aria-hidden="true">↗</span>
-              </a>
+              <Button asChild>
+                <a
+                  href={official}
+                  className="hover:bg-housing-button-hover rounded-md bg-[#214838] px-4 py-2.5 text-white"
+                >
+                  공식 공고 보기 <span aria-hidden="true">↗</span>
+                </a>
+              </Button>
             )}
             {pdf && (
-              <a
-                href={pdf}
-                className="rounded-md border border-[#a7b8ac] px-4 py-2.5 hover:bg-white"
-              >
-                모집공고 PDF <span aria-hidden="true">↗</span>
-              </a>
+              <Button asChild>
+                <a
+                  href={pdf}
+                  className="rounded-md border border-[#a7b8ac] px-4 py-2.5 hover:bg-white"
+                >
+                  모집공고 PDF <span aria-hidden="true">↗</span>
+                </a>
+              </Button>
             )}
           </div>
         </div>
@@ -76,47 +84,49 @@ export default function HousingNoticeCatalogView({ notice }: Props) {
           </p>
           {pdf &&
             notice.extracted?.map((section, index) => (
-              <details
+              <Collapsible
                 key={`${section.sourcePage}-${index}`}
                 className="mt-4 rounded-lg border border-[#cdd8ce] bg-white p-4"
               >
-                <summary className="cursor-pointer font-semibold">
+                <CollapsibleTrigger className="cursor-pointer font-semibold before:mr-1 before:inline-block before:content-[\'▸\'] data-[state=open]:before:rotate-90">
                   {section.label} · 원문 {section.sourcePage}쪽
-                </summary>
-                <p className="mt-2 text-sm text-[#425d51]">
-                  PDF에서 자동 추출한 표입니다. 신청 전 원문을 확인하세요.
-                </p>
-                <div className="mt-3 overflow-x-auto">
-                  <table className="w-full min-w-[32rem] text-left text-sm">
-                    <thead className="bg-[#e6ece4]">
-                      <tr>
-                        {section.headers.map((header, column) => (
-                          <th key={column} scope="col" className="p-2">
-                            {header}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#d8e0d6]">
-                      {section.rows.map((row, rowNumber) => (
-                        <tr key={rowNumber}>
-                          {row.map((cell, column) => (
-                            <td key={column} className="p-2 align-top">
-                              {cell}
-                            </td>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <p className="mt-2 text-sm text-[#425d51]">
+                    PDF에서 자동 추출한 표입니다. 신청 전 원문을 확인하세요.
+                  </p>
+                  <div className="mt-3 overflow-x-auto">
+                    <Table className="w-full min-w-[32rem] text-left text-sm">
+                      <TableHeader className="bg-[#e6ece4]">
+                        <TableRow>
+                          {section.headers.map((header, column) => (
+                            <TableHead key={column} scope="col" className="p-2">
+                              {header}
+                            </TableHead>
                           ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                <a
-                  href={`${pdf}#page=${section.sourcePage}`}
-                  className="mt-3 inline-block text-sm underline"
-                >
-                  PDF 원문 {section.sourcePage}쪽
-                </a>
-              </details>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody className="divide-y divide-[#d8e0d6]">
+                        {section.rows.map((row, rowNumber) => (
+                          <TableRow key={rowNumber}>
+                            {row.map((cell, column) => (
+                              <TableCell key={column} className="p-2 align-top">
+                                {cell}
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                  <a
+                    href={`${pdf}#page=${section.sourcePage}`}
+                    className="mt-3 inline-block text-sm underline"
+                  >
+                    PDF 원문 {section.sourcePage}쪽
+                  </a>
+                </CollapsibleContent>
+              </Collapsible>
             ))}
         </section>
       </div>

@@ -6,7 +6,11 @@ import { useState } from 'react';
 import type { MyhomeNoticeSummary } from '@/entities/housing-notices/model/myhomeNoticeDetails';
 import { MyhomeKind } from '@/entities/housing-notices/model/types';
 
+import Button from '@/shared/ui/Button';
 import FilterPanel from '@/shared/ui/FilterPanel';
+import Input from '@/shared/ui/Input';
+import Label from '@/shared/ui/Label';
+import NativeSelect from '@/shared/ui/NativeSelect';
 
 const ALL = '전체';
 
@@ -32,39 +36,33 @@ export default function HousingNoticeList({ notices }: Props) {
     <div className="hub-catalog">
       <FilterPanel hasConditions={Boolean(term || filter !== ALL)}>
         <div className="grid gap-3 text-sm">
-          <label className="text-hub-muted grid gap-1 font-semibold">
+          <Label className="text-hub-muted grid gap-1 font-semibold">
             공고명 또는 지역
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              className="hub-field"
-            />
-          </label>
-          <label className="text-hub-muted grid gap-1 font-semibold">
+            <Input type="search" value={query} onChange={(event) => setQuery(event.target.value)} />
+          </Label>
+          <Label className="text-hub-muted grid gap-1 font-semibold">
             공급 유형
-            <select
+            <NativeSelect
               value={filter}
               onChange={(event) => setFilter(event.target.value as Filter)}
-              className="hub-field"
             >
               {(Object.keys(labels) as Filter[]).map((kind) => (
                 <option key={kind} value={kind}>
                   {labels[kind]}
                 </option>
               ))}
-            </select>
-          </label>
-          <button
+            </NativeSelect>
+          </Label>
+          <Button
             type="button"
             onClick={() => {
               setQuery('');
               setFilter(ALL);
             }}
-            className="text-hub-accent min-h-11 cursor-pointer text-left font-semibold hover:underline"
+            variant="reset"
           >
             조건 초기화
-          </button>
+          </Button>
         </div>
       </FilterPanel>
       <section aria-labelledby="notices-heading">
@@ -96,7 +94,7 @@ export default function HousingNoticeList({ notices }: Props) {
                 <Link
                   href={`/housing/${notice.slug}`}
                   prefetch={false}
-                  className="group hover:bg-hub-soft focus-visible:bg-hub-soft grid grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_1rem] items-center gap-x-3 gap-y-1 px-4 py-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.55fr)_minmax(0,0.75fr)_1rem]"
+                  className="group hover:bg-hub-row-hover focus-visible:bg-hub-row-hover grid grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_1rem] items-center gap-x-3 gap-y-1 px-4 py-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.55fr)_minmax(0,0.75fr)_1rem]"
                 >
                   <div className="col-span-2 min-w-0 lg:col-span-1">
                     <p className="text-hub-accent text-sm font-semibold">{labels[notice.kind]}</p>

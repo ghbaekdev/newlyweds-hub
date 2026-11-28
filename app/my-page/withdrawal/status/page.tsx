@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { connection } from 'next/server';
 import { Suspense } from 'react';
@@ -10,6 +11,8 @@ import { withdrawalReceiptCookie } from '@/features/account-withdrawals/model/wi
 import { getAccountWithdrawalStatus } from '@/entities/account-withdrawals/api/getAccountWithdrawalStatus';
 import { isWithdrawalPending } from '@/entities/account-withdrawals/api/isWithdrawalPending';
 import { getCurrentAccount } from '@/entities/accounts/api/getCurrentAccount';
+
+export const metadata: Metadata = { title: '탈퇴 상태 확인', robots: { index: false } };
 
 export default function WithdrawalStatusPage() {
   return (

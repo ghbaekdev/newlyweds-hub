@@ -6,8 +6,12 @@ export const siteDescription =
 export const siteOrigin = process.env.SITE_URL ? new URL(process.env.SITE_URL).origin : undefined;
 export const publicPaths = ['/', '/benefits', '/housing'] as const;
 
+export function housingNoticePath(slug: string): `/housing/${string}` {
+  return `/housing/${encodeURIComponent(slug)}`;
+}
+
 export function pageMetadata(
-  path: (typeof publicPaths)[number],
+  path: (typeof publicPaths)[number] | ReturnType<typeof housingNoticePath>,
   title: string,
   description: string,
 ): Metadata {

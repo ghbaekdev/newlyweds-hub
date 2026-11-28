@@ -1,7 +1,16 @@
 import type { MetadataRoute } from 'next';
 
-import { publicPaths, siteOrigin } from './_lib/seo';
+import { getMyhomeCatalog } from '@/entities/housing-notices/api/getMyhomeCatalog';
+import { getMyhomeNoticeDetails } from '@/entities/housing-notices/api/getMyhomeNoticeDetails';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  return siteOrigin ? publicPaths.map((path) => ({ url: new URL(path, siteOrigin).href })) : [];
+import { housingNoticePath, publicPaths, siteOrigin } from './_lib/seo';
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  if (!siteOrigin) return [];
+
+  const catalog = await getMyhomeCatalog();
+  const notices = catalog?.notices ?? getMyhomeNoticeDetails();
+  const paths = new Set([...publicPaths, ...notices.map(({ slug }) => housingNoticePath(slug))]);
+
+  return Array.from(paths, (path) => ({ url: new URL(path, siteOrigin).href }));
 }

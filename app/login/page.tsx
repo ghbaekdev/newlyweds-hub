@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -7,6 +8,8 @@ import { AuthIssue } from '@/features/account-sessions/lib/loginPath';
 import { accountPath, getReturnPath } from '@/features/account-sessions/lib/returnPath';
 
 import { getCurrentAccount } from '@/entities/accounts/api/getCurrentAccount';
+
+export const metadata: Metadata = { title: '로그인', robots: { index: false } };
 
 export default function LoginPage({ searchParams }: PageProps<'/login'>) {
   return (

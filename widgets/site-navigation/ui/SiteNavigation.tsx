@@ -1,7 +1,12 @@
-'use client';
-
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Suspense } from 'react';
+
+import { accountPath } from '@/features/account-sessions/lib/returnPath';
+import LoginLink from '@/features/account-sessions/ui/LoginLink';
+
+import { getCurrentAccount } from '@/entities/accounts/api/getCurrentAccount';
+
+import NavigationLink from './NavigationLink';
 
 const links = [
   { href: '/', label: '메인' },
@@ -9,9 +14,10 @@ const links = [
   { href: '/benefits', label: '지원 혜택' },
 ] as const;
 
-export default function SiteNavigation() {
-  const pathname = usePathname();
+const linkClass =
+  'text-hub-muted hover:text-hub-accent aria-[current]:bg-hub-soft aria-[current]:text-hub-accent flex min-h-11 items-center rounded-t-md px-2 text-sm font-semibold sm:rounded-md sm:px-3.5';
 
+export default function SiteNavigation() {
   return (
     <header className="border-hub-line text-hub-ink border-b bg-white">
       <div className="hub-container flex flex-wrap items-center justify-between gap-x-6 gap-y-1 pt-2 sm:min-h-[4.5rem] sm:pt-0">
@@ -31,23 +37,24 @@ export default function SiteNavigation() {
           </svg>
           신혼부부 지원 허브
         </Link>
-        <nav aria-label="공통 내비게이션" className="flex w-full gap-1 sm:w-auto">
-          {links.map(({ href, label }) => {
-            const current = pathname === href;
-            const active = current || (href !== '/' && pathname.startsWith(`${href}/`));
-            return (
-              <Link
-                key={href}
-                href={href}
-                aria-current={current ? 'page' : active ? 'location' : undefined}
-                className="text-hub-muted hover:text-hub-accent aria-[current]:bg-hub-soft aria-[current]:text-hub-accent flex min-h-11 items-center rounded-t-md px-3.5 text-sm font-semibold sm:rounded-md"
-              >
-                {label}
-              </Link>
-            );
-          })}
+        <nav aria-label="공통 내비게이션" className="flex w-full flex-wrap gap-x-1 sm:w-auto">
+          {links.map(({ href, label }) => (
+            <NavigationLink key={href} href={href} label={label} className={linkClass} />
+          ))}
+          <Suspense fallback={null}>
+            <AccountNavigation />
+          </Suspense>
         </nav>
       </div>
     </header>
+  );
+}
+
+async function AccountNavigation() {
+  const account = await getCurrentAccount();
+  return account ? (
+    <NavigationLink href={accountPath} label="마이페이지" className={linkClass} prefetch={false} />
+  ) : (
+    <LoginLink className={linkClass} />
   );
 }

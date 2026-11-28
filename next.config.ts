@@ -5,6 +5,11 @@ const nextConfig: NextConfig = {
   // useMemo/useCallback 대신 컴파일러가 메모이제이션한다 (docs/conventions.md)
   reactCompiler: true,
   partialPrefetching: true,
+  logging: {
+    incomingRequests: {
+      ignore: [/\/auth\/callback(?:[/?]|$)/, /\/my-page\/withdrawal\/verify\/callback(?:[/?]|$)/],
+    },
+  },
   turbopack: {
     rules: {
       '*.css': {

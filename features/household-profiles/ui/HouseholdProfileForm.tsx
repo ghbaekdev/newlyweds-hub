@@ -8,7 +8,7 @@ import Button from '@/shared/ui/Button';
 import FieldSet from '@/shared/ui/FieldSet';
 import Input from '@/shared/ui/Input';
 import Label from '@/shared/ui/Label';
-import NativeSelect from '@/shared/ui/NativeSelect';
+import Select, { SelectItem } from '@/shared/ui/Select';
 
 import { MarriageStatusChoice } from '../lib/parseHouseholdProfile';
 import { saveHouseholdProfile } from '../model/saveHouseholdProfile';
@@ -47,16 +47,17 @@ export default function HouseholdProfileForm({ profile }: HouseholdProfileFormPr
         <div className="grid gap-3 sm:grid-cols-3">
           <Label className="grid gap-1.5 text-sm font-medium">
             혼인 상태
-            <NativeSelect
+            <Select
+              aria-label="혼인 상태"
               name="marriage_status"
               value={marriageStatus}
-              onChange={(event) => setMarriageStatus(event.target.value)}
+              onValueChange={setMarriageStatus}
             >
-              <option value="">선택 안 함</option>
-              <option value={MarriageStatusChoice.PROSPECTIVE}>예비부부</option>
-              <option value={MarriageStatusChoice.MARRIED}>혼인신고 함</option>
-              <option value={MarriageStatusChoice.OTHER}>그 외</option>
-            </NativeSelect>
+              <SelectItem value="">선택 안 함</SelectItem>
+              <SelectItem value={MarriageStatusChoice.PROSPECTIVE}>예비부부</SelectItem>
+              <SelectItem value={MarriageStatusChoice.MARRIED}>혼인신고 함</SelectItem>
+              <SelectItem value={MarriageStatusChoice.OTHER}>그 외</SelectItem>
+            </Select>
           </Label>
           <Label className="grid gap-1.5 text-sm font-medium">
             혼인신고일

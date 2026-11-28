@@ -3,7 +3,7 @@
 import regions from '@/data/regions.json';
 
 import Label from '@/shared/ui/Label';
-import NativeSelect from '@/shared/ui/NativeSelect';
+import Select, { SelectItem } from '@/shared/ui/Select';
 
 const regionMap: Record<string, readonly string[]> = regions;
 const provinces = Object.keys(regionMap).sort((a, b) => a.localeCompare(b, 'ko'));
@@ -37,30 +37,36 @@ export default function RegionFields({
     <div className="grid gap-3 sm:grid-cols-2">
       <Label className="grid gap-1.5 text-sm font-medium">
         시·도
-        <NativeSelect
+        <Select
+          aria-label="시·도"
           name={provinceName}
           value={province}
-          onChange={(event) => onProvinceChange(event.target.value)}
+          onValueChange={onProvinceChange}
         >
-          <option value="">선택 안 함</option>
+          <SelectItem value="">선택 안 함</SelectItem>
           {provinceOptions.map((name) => (
-            <option key={name}>{name}</option>
+            <SelectItem key={name} value={name}>
+              {name}
+            </SelectItem>
           ))}
-        </NativeSelect>
+        </Select>
       </Label>
       <Label className="grid gap-1.5 text-sm font-medium">
         시·군·구
-        <NativeSelect
+        <Select
+          aria-label="시·군·구"
           name={districtName}
           disabled={!province || districtOptions.length === 0}
           value={district}
-          onChange={(event) => onDistrictChange(event.target.value)}
+          onValueChange={onDistrictChange}
         >
-          <option value="">{districtPlaceholder}</option>
+          <SelectItem value="">{districtPlaceholder}</SelectItem>
           {districtOptions.map((name) => (
-            <option key={name}>{name}</option>
+            <SelectItem key={name} value={name}>
+              {name}
+            </SelectItem>
           ))}
-        </NativeSelect>
+        </Select>
       </Label>
     </div>
   );

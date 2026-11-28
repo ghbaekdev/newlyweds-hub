@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import Button from '@/shared/ui/Button';
 import Input from '@/shared/ui/Input';
-import NativeSelect from '@/shared/ui/NativeSelect';
+import Select, { SelectItem } from '@/shared/ui/Select';
 
 type Hit = { field: string; keyword: string; snippet: string };
 type Item = {
@@ -149,19 +149,22 @@ export default function BenefitsExplorer() {
                 </Button>
               );
             })}
-            <NativeSelect
+            <Select
+              aria-label="소관기관유형"
               appearance="custom"
               value={orgType}
-              onChange={(e) => setOrgType(e.target.value)}
+              onValueChange={setOrgType}
               className="rounded-md border border-zinc-300 bg-transparent px-2 py-1 text-sm dark:border-zinc-700"
             >
-              <option value="">소관기관유형 전체</option>
-              {data.stats.byOrgType.map(([k]) => (
-                <option key={k} value={k === '(없음)' ? '' : k}>
-                  {k}
-                </option>
-              ))}
-            </NativeSelect>
+              <SelectItem value="">소관기관유형 전체</SelectItem>
+              {data.stats.byOrgType
+                .filter(([k]) => k !== '(없음)')
+                .map(([k]) => (
+                  <SelectItem key={k} value={k}>
+                    {k}
+                  </SelectItem>
+                ))}
+            </Select>
             <Input
               appearance="custom"
               value={query}

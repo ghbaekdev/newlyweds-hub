@@ -10,7 +10,7 @@ import Button from '@/shared/ui/Button';
 import FilterPanel from '@/shared/ui/FilterPanel';
 import Input from '@/shared/ui/Input';
 import Label from '@/shared/ui/Label';
-import NativeSelect from '@/shared/ui/NativeSelect';
+import Select, { SelectItem } from '@/shared/ui/Select';
 
 const ALL = '전체';
 
@@ -42,16 +42,17 @@ export default function HousingNoticeList({ notices }: Props) {
           </Label>
           <Label className="text-hub-muted grid gap-1 font-semibold">
             공급 유형
-            <NativeSelect
+            <Select
+              aria-label="공급 유형"
               value={filter}
-              onChange={(event) => setFilter(event.target.value as Filter)}
+              onValueChange={(value) => setFilter(value as Filter)}
             >
               {(Object.keys(labels) as Filter[]).map((kind) => (
-                <option key={kind} value={kind}>
+                <SelectItem key={kind} value={kind}>
                   {labels[kind]}
-                </option>
+                </SelectItem>
               ))}
-            </NativeSelect>
+            </Select>
           </Label>
           <Button
             type="button"

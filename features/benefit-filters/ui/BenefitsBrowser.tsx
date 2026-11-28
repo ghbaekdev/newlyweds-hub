@@ -22,7 +22,7 @@ import FieldSet, { FieldLegend } from '@/shared/ui/FieldSet';
 import FilterPanel from '@/shared/ui/FilterPanel';
 import Input from '@/shared/ui/Input';
 import Label from '@/shared/ui/Label';
-import NativeSelect from '@/shared/ui/NativeSelect';
+import Select, { SelectItem } from '@/shared/ui/Select';
 
 const Status = { ANY: 'any', PROSPECTIVE: 'prospective', MARRIED: 'married' } as const;
 type Status = (typeof Status)[keyof typeof Status];
@@ -131,47 +131,45 @@ export default function BenefitsBrowser({ benefits, regions }: Props) {
           </Label>
           <FieldSet className="grid gap-1">
             <FieldLegend className="text-hub-muted mb-1 font-semibold">거주 지역</FieldLegend>
-            <NativeSelect
+            <Select
               aria-label="시도"
               value={sido}
-              onChange={(event) => {
-                setSido(event.target.value);
+              onValueChange={(value) => {
+                setSido(value);
                 setSigungu('');
               }}
             >
-              <option value="">전체 시도</option>
+              <SelectItem value="">전체 시도</SelectItem>
               {sidos.map((region) => (
-                <option key={region}>{region}</option>
+                <SelectItem key={region} value={region}>
+                  {region}
+                </SelectItem>
               ))}
-            </NativeSelect>
-            <NativeSelect
-              aria-label="시군구"
-              value={sigungu}
-              onChange={(event) => setSigungu(event.target.value)}
-              disabled={!sido}
-            >
-              <option value="">시군구 전체</option>
+            </Select>
+            <Select aria-label="시군구" value={sigungu} onValueChange={setSigungu} disabled={!sido}>
+              <SelectItem value="">시군구 전체</SelectItem>
               {sigungus.map((region) => {
                 const count = localCount[`${sido}|${region}`] ?? 0;
                 return (
-                  <option key={region} value={region}>
+                  <SelectItem key={region} value={region}>
                     {region}
                     {count ? ` (${count})` : ' (지역 사업 없음)'}
-                  </option>
+                  </SelectItem>
                 );
               })}
-            </NativeSelect>
+            </Select>
           </FieldSet>
           <Label className="text-hub-muted grid gap-1 font-semibold">
             혼인 상태
-            <NativeSelect
+            <Select
+              aria-label="혼인 상태"
               value={status}
-              onChange={(event) => setStatus(event.target.value as Status)}
+              onValueChange={(value) => setStatus(value as Status)}
             >
-              <option value={Status.ANY}>상관없음</option>
-              <option value={Status.PROSPECTIVE}>예비부부</option>
-              <option value={Status.MARRIED}>혼인신고 함</option>
-            </NativeSelect>
+              <SelectItem value={Status.ANY}>상관없음</SelectItem>
+              <SelectItem value={Status.PROSPECTIVE}>예비부부</SelectItem>
+              <SelectItem value={Status.MARRIED}>혼인신고 함</SelectItem>
+            </Select>
           </Label>
           {status === Status.MARRIED && (
             <Label className="text-hub-muted grid gap-1 font-semibold">

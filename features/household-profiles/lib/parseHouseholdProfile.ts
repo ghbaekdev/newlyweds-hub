@@ -16,6 +16,7 @@ export const MarriageStatusChoice = {
   OTHER: 'other',
 } as const satisfies Record<string, MarriageStatus>;
 
+const wonPerManwon = 10_000;
 const maxRegions = 300;
 const maxHouseholdSize = 2_147_483_647;
 
@@ -35,18 +36,12 @@ export function parseHouseholdProfile(form: FormData, regions: RegionMap): Parse
     return invalid('희망 지역을 목록에서 다시 선택해 주세요.');
   }
 
-  const applicantIncome = optionalWholeNumber(
-    form.get('applicant_monthly_income_krw'),
-    0,
-    Number.MAX_SAFE_INTEGER,
-  );
-  const partnerIncome = optionalWholeNumber(
-    form.get('partner_monthly_income_krw'),
-    0,
-    Number.MAX_SAFE_INTEGER,
-  );
+  const applicantIncome = optionalIncome(form, 'applicant');
+  const partnerIncome = optionalIncome(form, 'partner');
   if (applicantIncome === undefined || partnerIncome === undefined) {
-    return invalid('월평균 소득을 0 이상의 정수로 입력해 주세요.');
+    return invalid(
+      '월평균 소득을 0 이상의 만원 단위로 입력해 주세요. 소수점은 넷째 자리까지 입력할 수 있어요.',
+    );
   }
 
   const applicantHomeOwnership = optionalChoice(
@@ -72,15 +67,15 @@ export function parseHouseholdProfile(form: FormData, regions: RegionMap): Parse
     return invalid('현재 거주지를 목록에서 다시 선택해 주세요.');
   }
 
-  const applicantSince = optionalDate(form.get('applicant_residence_since'));
-  const partnerSince = optionalDate(form.get('partner_residence_since'));
+  const applicantSince = optionalResidenceMonth(form, 'applicant');
+  const partnerSince = optionalResidenceMonth(form, 'partner');
   const marriageRegisteredOn = optionalDate(form.get('marriage_registered_on'));
   if (
     applicantSince === undefined ||
     partnerSince === undefined ||
     marriageRegisteredOn === undefined
   ) {
-    return invalid('거주 시작일 또는 혼인신고일을 확인해 주세요.');
+    return invalid('거주 시작 연월 또는 혼인신고일을 확인해 주세요.');
   }
 
   const marriageStatus = optionalChoice(form.get('marriage_status'), MarriageStatusChoice);
@@ -144,4 +139,43 @@ function optionalDate(entry: FormDataEntryValue | null) {
 
   const date = new Date(`${entry}T00:00:00Z`);
   return Number.isNaN(date.valueOf()) || !date.toISOString().startsWith(entry) ? undefined : entry;
+}
+
+type HouseholdPerson = 'applicant' | 'partner';
+
+export function formatIncomeManwon(won: number | null | undefined): string {
+  if (won == null) return '';
+  const whole = Math.floor(won / wonPerManwon);
+  const fraction = String(won % wonPerManwon)
+    .padStart(4, '0')
+    .replace(/0+$/, '');
+  return fraction ? `${whole}.${fraction}` : String(whole);
+}
+
+function optionalIncome(form: FormData, person: HouseholdPerson) {
+  const entry = form.get(`${person}_monthly_income_manwon`);
+  if (entry === null) {
+    return optionalWholeNumber(
+      form.get(`${person}_monthly_income_krw`),
+      0,
+      Number.MAX_SAFE_INTEGER,
+    );
+  }
+  if (entry === '') return null;
+  if (typeof entry !== 'string' || !/^\d+(?:\.\d{1,4})?$/.test(entry)) return undefined;
+
+  const [whole, fraction = ''] = entry.split('.');
+  const won = Number(whole) * wonPerManwon + Number(fraction.padEnd(4, '0'));
+  return Number.isSafeInteger(won) ? won : undefined;
+}
+
+function optionalResidenceMonth(form: FormData, person: HouseholdPerson) {
+  const entry = form.get(`${person}_residence_month`);
+  if (entry === null) {
+    const legacyDate = optionalDate(form.get(`${person}_residence_since`));
+    return legacyDate ? `${legacyDate.slice(0, 7)}-01` : legacyDate;
+  }
+  if (entry === '') return null;
+  if (typeof entry !== 'string' || !/^\d{4}[-/](0[1-9]|1[0-2])$/.test(entry)) return undefined;
+  return optionalDate(`${entry.replace('/', '-')}-01`);
 }

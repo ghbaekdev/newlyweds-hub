@@ -7,6 +7,10 @@ import { getMyhomeNoticeDetails } from '@/entities/housing-notices/api/getMyhome
 import { isNewlywedNotice } from '@/entities/housing-notices/lib/isNewlywedNotice';
 import { toMyhomeNoticeSummary } from '@/entities/housing-notices/lib/toMyhomeNoticeSummary';
 
+import { pageMetadata, siteDescription, siteTitle } from './_lib/seo';
+
+export const metadata = pageMetadata('/', siteTitle, siteDescription);
+
 export default async function Home() {
   const [housing, benefits] = await Promise.allSettled([getMyhomeCatalog(), getBenefits()]);
   const notices =

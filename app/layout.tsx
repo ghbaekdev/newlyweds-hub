@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 
 import SiteNavigation from '@/widgets/site-navigation/ui/SiteNavigation';
 
+import { siteDescription, siteTitle } from './_lib/seo';
 import './globals.css';
 
 const geistSans = Geist({
@@ -15,10 +16,7 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-export const metadata: Metadata = {
-  title: 'newlyweds-test',
-  description: '신혼부부 공고·혜택 API 테스트',
-};
+export const metadata: Metadata = { title: siteTitle, description: siteDescription };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
